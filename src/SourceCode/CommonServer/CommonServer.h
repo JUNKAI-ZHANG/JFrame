@@ -26,16 +26,16 @@ class CommonServer : public IServer {
     virtual ~CommonServer();
 
    public:
-    virtual int32_t StartListen(int32_t port) override{};
-    virtual int32_t CloseFd(int32_t fd) override{};
-    virtual int32_t Working(int32_t port) override{};
-    virtual void DoTick() override{};
+    virtual int32_t StartListen(int32_t port) override {};
+    virtual int32_t CloseFd(int32_t fd) override {};
+    virtual int32_t Working(int32_t port) override {};
+    virtual void DoTick() override {};
 
    private:
-    virtual int32_t HandleNewConnecionEvent(int32_t fd);
-    virtual int32_t HandleConnMsgEvent(int32_t fd);
+    virtual int32_t HandleNewConnecionEvent(int32_t fd) override;
+    virtual int32_t HandleConnMsgEvent(int32_t fd) override;
 
-   private
+   private:
     Epoll *_m_epoll;
     int32_t _m_socket_fd;
 

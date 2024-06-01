@@ -6,6 +6,8 @@ set(CMAKE_BUILD_TYPE "Debug")
 set(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
 set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
+add_definitions(-DS_MAC)
+
 # Binary file output
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
@@ -16,14 +18,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../bin)
 # SET_TARGET_PROPERTIES(dllname PROPERTIES RUNTIME_OUTPUT_DIRECTORY ../bin)
 
 # Will add xx.so xx.a to install
-file(GLOB_RECURSE cpp_My src/Helper/*.cpp)
-file(GLOB_RECURSE cpp_ThirdParty src/ThirdParty/*.cpp)
-file(GLOB_RECURSE hs_My src/*.h)
-file(GLOB_RECURSE hs_ThirdParty src/ThirdParty/*.h)
+file(GLOB_RECURSE cpp src/*.cpp)
+file(GLOB_RECURSE doth src/*.h)
 
 add_executable(Test 
-    ${cpp_My}
-    ${hs_My}
-    ${cpp_ThirdParty}
-    ${hs_ThirdParty}
+    ${cpp}
+    ${doth}
 )

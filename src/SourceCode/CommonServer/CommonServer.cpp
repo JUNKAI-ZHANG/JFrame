@@ -1,7 +1,7 @@
 #ifndef __COMMONSERVER_CPP_
 #define __COMMONSERVER_CPP_
 
-#include "CommonServer.h"
+#include "./CommonServer.h"
 
 #include <memory.h>
 
@@ -111,7 +111,7 @@ int32_t CommonServer::Working(int32_t port) {
 void CommonServer::DoTick() {
 }
 
-int32_t CommonServer::handleNewConnecionEvent(int32_t fd) {
+int32_t CommonServer::handleNewConnecionEvent(int32_t fd) override {
     if (_m_socket_fd != fd) {
         std::cerr << "Fd Error" << std::endl;
         return -1;

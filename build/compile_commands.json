@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/Users/jk/Programming/JFrame/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DS_MAC   -O0 -Wall -g -ggdb -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/Test.dir/src/SourceCode/CommonLib/RingBuffer.cpp.o -c /Users/jk/Programming/JFrame/src/SourceCode/CommonLib/RingBuffer.cpp",
+  "file": "/Users/jk/Programming/JFrame/src/SourceCode/CommonLib/RingBuffer.cpp",
+  "output": "CMakeFiles/Test.dir/src/SourceCode/CommonLib/RingBuffer.cpp.o"
+},
+{
+  "directory": "/Users/jk/Programming/JFrame/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DS_MAC   -O0 -Wall -g -ggdb -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/Test.dir/src/SourceCode/CommonServer/CommonServer.cpp.o -c /Users/jk/Programming/JFrame/src/SourceCode/CommonServer/CommonServer.cpp",
+  "file": "/Users/jk/Programming/JFrame/src/SourceCode/CommonServer/CommonServer.cpp",
+  "output": "CMakeFiles/Test.dir/src/SourceCode/CommonServer/CommonServer.cpp.o"
+},
+{
+  "directory": "/Users/jk/Programming/JFrame/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DS_MAC   -O0 -Wall -g -ggdb -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/Test.dir/src/SourceCode/GateServer/GateServer.cpp.o -c /Users/jk/Programming/JFrame/src/SourceCode/GateServer/GateServer.cpp",
+  "file": "/Users/jk/Programming/JFrame/src/SourceCode/GateServer/GateServer.cpp",
+  "output": "CMakeFiles/Test.dir/src/SourceCode/GateServer/GateServer.cpp.o"
+},
+{
+  "directory": "/Users/jk/Programming/JFrame/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DS_MAC   -O0 -Wall -g -ggdb -std=gnu++11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/Test.dir/src/Tool/Epoll.cpp.o -c /Users/jk/Programming/JFrame/src/Tool/Epoll.cpp",
+  "file": "/Users/jk/Programming/JFrame/src/Tool/Epoll.cpp",
+  "output": "CMakeFiles/Test.dir/src/Tool/Epoll.cpp.o"
+}
+]
