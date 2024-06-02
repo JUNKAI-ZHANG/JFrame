@@ -1,8 +1,4 @@
-> jk's Frame
+# 服务器框架
 
-# 规范
-
-* 私有成员变量：_m_epoll_fd
-* 公有成员变量：m_epoll_fd
-* 私有成员函数：getEpollFd
-* 公有成员函数：GetEpollFd
+## 待办
+1. ClientBuffer大小定多少合适？

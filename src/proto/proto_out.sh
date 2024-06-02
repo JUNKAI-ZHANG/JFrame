@@ -33,6 +33,6 @@ done
  
 ReadAllFileName
  
-cd /home/jk/Programs/JFrame/src/Proto/proto
+cd /home/jk/Programs/JFrame/src/proto/proto
 
 protoc --cpp_out=../proto_out/ $result

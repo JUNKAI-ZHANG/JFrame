@@ -7,8 +7,6 @@
 #include <pthread.h>
 #include <iostream>
 
-namespace GameJayo { namespace Server {
-
 class Locker
 {
 private:
@@ -52,7 +50,6 @@ public:
 private:
     Locker* m_pLocker;
 };
-}}
 
 #endif //__LOCK_H
 
