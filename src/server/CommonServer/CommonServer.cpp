@@ -4,6 +4,7 @@
 #include "./CommonServer.h"
 
 #include <memory.h>
+
 #include <iostream>
 
 class CommonServer;
@@ -33,12 +34,12 @@ int32_t CommonServer::StartListen(int32_t port) {
         return -1;
     }
 
-    struct sockaddr_in addr;
-    memset(&addr, 0, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    if (bind(_m_socket_fd, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)) == -1) {
+    struct sockaddr_in kAddr;
+    memset(&kAddr, 0, sizeof(kAddr));
+    kAddr.sin_family = AF_INET;
+    kAddr.sin_port = htons(port);
+    kAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    if (bind(_m_socket_fd, reinterpret_cast<struct sockaddr *>(&kAddr), sizeof(kAddr)) == -1) {
         std::cout << "Failed to bind address" << std::endl;
         CloseFd(_m_socket_fd);
         return -1;
@@ -109,8 +110,7 @@ int32_t CommonServer::Working(int32_t port) {
     }
 }
 
-void CommonServer::DoTick() {
-}
+void CommonServer::DoTick() {}
 
 NetError CommonServer::HandleNewConnecionEvent(int32_t fd) {
     if (_m_socket_fd != fd) {

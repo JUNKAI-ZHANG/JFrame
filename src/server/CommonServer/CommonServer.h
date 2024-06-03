@@ -4,15 +4,14 @@
 #include <unordered_map>
 
 #include "../../lib/net/epoll/epoll.h"
-#include "../CommonLib/RingBuffer.h"
-#include "../Common_Define.h"
-#include "../../lib/net/define/err.h"
+#include "Common_Define.h"
+#include "lib/net/define/err.h"
 
 class IBaseServer {
-public:
+   public:
     virtual int32_t Working(int32_t port) = 0;
 
-protected:
+   protected:
     virtual int32_t StartListen(int32_t port) = 0;
     virtual int32_t CloseFd(int32_t fd) = 0;
     virtual void DoTick() = 0;
@@ -20,18 +19,18 @@ protected:
     virtual NetError HandleConnMsgEvent(int32_t fd) = 0;
     virtual NetError HandleReceivedMsg(int32_t fd) = 0;
 
-protected:
+   protected:
     std::unordered_map<int32_t, RingBuffer *> m_umapConnsBuffer;
 };
 
 class CommonServer : public IBaseServer {
-public:
+   public:
     explicit CommonServer();
     virtual ~CommonServer();
 
     virtual int32_t Working(int32_t port) override;
 
-protected:
+   protected:
     virtual int32_t StartListen(int32_t port) override;
     virtual int32_t CloseFd(int32_t fd) override;
     virtual void DoTick() override;
@@ -44,7 +43,6 @@ protected:
     int32_t _m_socket_fd;
 
     char *_m_buffer;
-    struct epoll_event *_m_events;
 };
 
 #endif  // __COMMONSERVER_H_

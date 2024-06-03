@@ -8,6 +8,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
 add_definitions(-DS_MAC)
 
+# Include path
+include_directories("${PROJECT_SOURCE_DIR}/src")
+
 # Binary file output
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
