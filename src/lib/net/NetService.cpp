@@ -4,8 +4,8 @@
 #include "./NetService.h"
 
 #include <string.h>
-#include <functional>
 
+#include <functional>
 #include <iostream>
 
 class NetService;
@@ -74,11 +74,11 @@ NetError NetService::Working(int32_t iPort) {
             return eErr;
         }
 
-        eErr = m_kNetEpoll->EpollHandleEvent(std::bind(&NetService::HandleEpollEvent, 
-                                                        this, 
-                                                        std::placeholders::_1, 
-                                                        std::placeholders::_2, 
-                                                        std::placeholders::_3));
+        eErr = m_kNetEpoll->EpollHandleEvent(std::bind(&NetService::HandleEpollEvent,
+                                                       this,
+                                                       std::placeholders::_1,
+                                                       std::placeholders::_2,
+                                                       std::placeholders::_3));
         if (eErr != NetError::NET_OK) {
             std::cout << "EpollHandleEvent Failed" << std::endl;
             return eErr;
@@ -89,7 +89,7 @@ NetError NetService::Working(int32_t iPort) {
     return eErr;
 }
 
-NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void *pData) {
+NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void* pData) {
     NetError eErr = NetError::NET_OK;
     if (kEvent.events & EPOLLIN) {
         if (iConnFd == m_kNetSocket->GetSocketFd()) {
@@ -131,7 +131,7 @@ NetError NetService::DoTick() {
 NetError NetService::HandleNewConnecionEvent() {
     NetError eErr = NetError::NET_OK;
     int32_t iConnFd = 0;
-    
+
     if ((eErr = m_kNetSocket->Accept(iConnFd)) != NetError::NET_OK) {
         return eErr;
     }

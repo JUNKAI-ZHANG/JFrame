@@ -8,8 +8,8 @@
 #include <sys/epoll.h>
 #include <sys/socket.h>  //create socket
 #include <unistd.h>      //func close()
-#include <functional>
 
+#include <functional>
 #include <iostream>
 
 #include "lib/net/define/err.h"

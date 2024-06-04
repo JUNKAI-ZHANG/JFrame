@@ -6,12 +6,11 @@
 
 class CommonServer;
 
-CommonServer::CommonServer(CreateServerContext* kCreateServerContext) 
-            : IBaseServer(kCreateServerContext) {
+CommonServer::CommonServer(CreateServerContext* kCreateServerContext)
+    : IBaseServer(kCreateServerContext) {
 }
 
 CommonServer::~CommonServer() {
-    
 }
 
 void CommonServer::LaunchServer() {

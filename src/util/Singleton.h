@@ -1,20 +1,20 @@
 #ifndef __SINGLETON_H_
 #define __SINGLETON_H_
 
-template<typename T>
+template <typename T>
 class Singleton {
-public:
+   public:
     static T& Instance() {
-        static T *_instance = new T;
+        static T* _instance = new T;
         return _instance;
     }
 
-protected:
+   protected:
     Singleton() {}
 
-private:
-    Singleton(const Singleton& );
-    Singleton& operator=(const Singleton& );
+   private:
+    Singleton(const Singleton&);
+    Singleton& operator=(const Singleton&);
 };
 
-#endif // __SINGLETON_H_
+#endif  // __SINGLETON_H_

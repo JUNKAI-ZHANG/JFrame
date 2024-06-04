@@ -4,7 +4,7 @@
 #include <iostream>
 
 class Log {
-public:
+   public:
     template <typename... Args>
     void Debug(Args... args) {
         std::cout << "[" << __DATE__ << " " << __TIME__ << "] [Debug] [" << (std::cout << ... << args) << "]" << std::endl;
@@ -32,4 +32,4 @@ public:
     }
 };
 
-#endif // LOG_LOG_H
+#endif  // LOG_LOG_H

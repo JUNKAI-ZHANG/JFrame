@@ -21,10 +21,10 @@ class NetService {
     virtual NetError HandleNewConnecionEvent();
     virtual NetError HandleConnMsgEvent(int32_t iConnFd);
     virtual NetError HandleReceivedMsg(int32_t iConnFd);
-    
+
    protected:
     NetError DoTick();
-    NetError HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void *pData);
+    NetError HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void* pData);
 
    protected:
     NetEpoll* m_kNetEpoll;

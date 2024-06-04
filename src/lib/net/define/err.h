@@ -2,8 +2,8 @@
 #define NET_ERR_H
 
 enum NetError {
-    NET_OK = 0,                  // ok
-    NET_ERR = 1,                 // error
+    NET_OK = 0,   // ok
+    NET_ERR = 1,  // error
 
     NET_SOCKET_NULLPTR_ERR = 12,     // socket is nullptr
     NET_EPOLL_NULLPTR_ERR = 13,      // epoll is nullptr

@@ -1,14 +1,14 @@
 #ifndef SERVER_COMMONSERVER_IBASESERVER_H_
 #define SERVER_COMMONSERVER_IBASESERVER_H_
 
+#include "CreateServerContext.h"
 #include "lib/net/NetService.h"
 #include "lib/net/define/err.h"
-#include "CreateServerContext.h"
 
 class IBaseServer {
    public:
-    explicit IBaseServer(CreateServerContext *kCreateServerContext) 
-            : m_kCreateServerContext(kCreateServerContext) {
+    explicit IBaseServer(CreateServerContext* kCreateServerContext)
+        : m_kCreateServerContext(kCreateServerContext) {
         m_kNetService = new NetService();
     }
     virtual ~IBaseServer() {
@@ -27,4 +27,4 @@ class IBaseServer {
     NetService* m_kNetService;
 };
 
-#endif // SERVER_COMMONSERVER_IBASESERVER_H_
+#endif  // SERVER_COMMONSERVER_IBASESERVER_H_

@@ -12,7 +12,7 @@ void GateServer::LaunchServer() {
 }
 
 int main() {
-    CreateServerContext *kCreateServerContext = new CreateServerContext();
+    CreateServerContext* kCreateServerContext = new CreateServerContext();
     kCreateServerContext->SetPort(6666);
     GateServer* kGateserver = new GateServer(kCreateServerContext);
     kGateserver->LaunchServer();

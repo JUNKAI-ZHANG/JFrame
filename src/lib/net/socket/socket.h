@@ -65,7 +65,7 @@ class NetSocket {
     NetError Accept(int32_t& iAcceptFd) {
         struct sockaddr_in kAddr;
         socklen_t addrlen = sizeof(kAddr);
-        iAcceptFd = accept(m_iSocketFd, reinterpret_cast<struct sockaddr *>(&kAddr), &addrlen);
+        iAcceptFd = accept(m_iSocketFd, reinterpret_cast<struct sockaddr*>(&kAddr), &addrlen);
 
         if (iAcceptFd == -1) {
             std::cout << "Failed to accept connection" << std::endl;
