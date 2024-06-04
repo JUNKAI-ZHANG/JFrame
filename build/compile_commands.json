@@ -1,26 +1,26 @@
 [
 {
   "directory": "/root/JFrame/build",
-  "command": "/usr/bin/c++ -DS_MAC   -O0 -Wall -g -ggdb -std=gnu++11 -o CMakeFiles/Test.dir/src/SourceCode/CommonLib/RingBuffer.cpp.o -c /root/JFrame/src/SourceCode/CommonLib/RingBuffer.cpp",
-  "file": "/root/JFrame/src/SourceCode/CommonLib/RingBuffer.cpp",
-  "output": "CMakeFiles/Test.dir/src/SourceCode/CommonLib/RingBuffer.cpp.o"
+  "command": "/usr/bin/c++ -DS_MAC -I/root/JFrame/src  -O0 -Wall -g -ggdb -std=gnu++17 -o CMakeFiles/Test.dir/src/lib/logger/log.cpp.o -c /root/JFrame/src/lib/logger/log.cpp",
+  "file": "/root/JFrame/src/lib/logger/log.cpp",
+  "output": "CMakeFiles/Test.dir/src/lib/logger/log.cpp.o"
 },
 {
   "directory": "/root/JFrame/build",
-  "command": "/usr/bin/c++ -DS_MAC   -O0 -Wall -g -ggdb -std=gnu++11 -o CMakeFiles/Test.dir/src/SourceCode/CommonServer/CommonServer.cpp.o -c /root/JFrame/src/SourceCode/CommonServer/CommonServer.cpp",
-  "file": "/root/JFrame/src/SourceCode/CommonServer/CommonServer.cpp",
-  "output": "CMakeFiles/Test.dir/src/SourceCode/CommonServer/CommonServer.cpp.o"
+  "command": "/usr/bin/c++ -DS_MAC -I/root/JFrame/src  -O0 -Wall -g -ggdb -std=gnu++17 -o CMakeFiles/Test.dir/src/lib/net/NetService.cpp.o -c /root/JFrame/src/lib/net/NetService.cpp",
+  "file": "/root/JFrame/src/lib/net/NetService.cpp",
+  "output": "CMakeFiles/Test.dir/src/lib/net/NetService.cpp.o"
 },
 {
   "directory": "/root/JFrame/build",
-  "command": "/usr/bin/c++ -DS_MAC   -O0 -Wall -g -ggdb -std=gnu++11 -o CMakeFiles/Test.dir/src/SourceCode/GateServer/GateServer.cpp.o -c /root/JFrame/src/SourceCode/GateServer/GateServer.cpp",
-  "file": "/root/JFrame/src/SourceCode/GateServer/GateServer.cpp",
-  "output": "CMakeFiles/Test.dir/src/SourceCode/GateServer/GateServer.cpp.o"
+  "command": "/usr/bin/c++ -DS_MAC -I/root/JFrame/src  -O0 -Wall -g -ggdb -std=gnu++17 -o CMakeFiles/Test.dir/src/server/CommonServer/CommonServer.cpp.o -c /root/JFrame/src/server/CommonServer/CommonServer.cpp",
+  "file": "/root/JFrame/src/server/CommonServer/CommonServer.cpp",
+  "output": "CMakeFiles/Test.dir/src/server/CommonServer/CommonServer.cpp.o"
 },
 {
   "directory": "/root/JFrame/build",
-  "command": "/usr/bin/c++ -DS_MAC   -O0 -Wall -g -ggdb -std=gnu++11 -o CMakeFiles/Test.dir/src/Tool/Epoll.cpp.o -c /root/JFrame/src/Tool/Epoll.cpp",
-  "file": "/root/JFrame/src/Tool/Epoll.cpp",
-  "output": "CMakeFiles/Test.dir/src/Tool/Epoll.cpp.o"
+  "command": "/usr/bin/c++ -DS_MAC -I/root/JFrame/src  -O0 -Wall -g -ggdb -std=gnu++17 -o CMakeFiles/Test.dir/src/server/GateServer/GateServer.cpp.o -c /root/JFrame/src/server/GateServer/GateServer.cpp",
+  "file": "/root/JFrame/src/server/GateServer/GateServer.cpp",
+  "output": "CMakeFiles/Test.dir/src/server/GateServer/GateServer.cpp.o"
 }
 ]

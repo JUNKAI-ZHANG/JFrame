@@ -1,19 +1,21 @@
 #ifndef __GATESERVER_CPP_
 #define __GATESERVER_CPP_
 
-#include "../CommonServer/CommonServer.h"
+#include "GateServer.h"
 
-#include "../../lib/logger/log.h"
-
-int main() {
-    CommonServer* kGateserver = new CommonServer();
-
+void GateServer::LaunchServer() {
     Log* kLogger = new Log();
-
     kLogger->Info("GateServer", "is running...", 1 + 2);
 
-    kGateserver->Working(6666);
+    CommonServer::LaunchServer();
+    return;
+}
 
+int main() {
+    CreateServerContext *kCreateServerContext = new CreateServerContext();
+    kCreateServerContext->SetPort(6666);
+    GateServer* kGateserver = new GateServer(kCreateServerContext);
+    kGateserver->LaunchServer();
     return 0;
 }
 

@@ -16,13 +16,17 @@ class INetConnection {
 
     virtual ~INetConnection() {}
 
+    // 根据连接类型发送消息
     virtual void SendMsg(const char* pMsg, uint32_t iLen) = 0;
+    // 做释放逻辑
     virtual void Close() = 0;
 
     uint32_t GetIp() { return m_iIp; }
     uint16_t GetPort() { return m_iPort; }
     uint32_t GetSocketFd() { return m_iSocketFd; }
     uint64_t GetConnMs() { return m_lConnMs; }
+
+    RingBuffer* GetRecvBuffer() { return m_kRecvBuffer; }
 
     std::string GetIpStr() {
         char pIpStr[16] = {0};
@@ -32,6 +36,13 @@ class INetConnection {
                  (m_iIp & 0x0000FF00) >> 8,
                  (m_iIp & 0x000000FF));
         return std::string(pIpStr);
+    }
+
+    virtual std::string ToString() {
+        char pStr[128] = {0};
+        snprintf(pStr, sizeof(pStr), "ip:%s port:%d socket:%d connMs:%lu",
+                 GetIpStr().c_str(), m_iPort, m_iSocketFd, m_lConnMs);
+        return std::string(pStr);
     }
 
    private:

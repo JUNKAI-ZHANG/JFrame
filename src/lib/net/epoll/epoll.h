@@ -8,6 +8,7 @@
 #include <sys/epoll.h>
 #include <sys/socket.h>  //create socket
 #include <unistd.h>      //func close()
+#include <functional>
 
 #include <iostream>
 
@@ -37,7 +38,7 @@ class NetEpoll {
             return NET_EPOLL_CREATE_ERR;
         }
 
-        return NET_OK;
+        return NetError::NET_OK;
     }
     NetError EpollAdd(int fd) {
         struct epoll_event event;
@@ -49,7 +50,7 @@ class NetEpoll {
             return NET_EPOLL_ADD_FD_ERR;
         }
 
-        return NET_OK;
+        return NetError::NET_OK;
     }
 
     NetError EpollWait() {
@@ -59,9 +60,11 @@ class NetEpoll {
             close(m_iEpollFd);
             return NET_EPOLL_WAIT_ERR;
         }
+        return NetError::NET_OK;
     }
 
-    NetError EpollHandleEvent(EpollEventAction kEpollEventAction) {
+    // NetError EpollHandleEvent(NetEpoll::EpollEventAction kEpollEventAction) {
+    NetError EpollHandleEvent(std::function<NetError(int32_t, epoll_event, void*)> kEpollEventAction) {
         NetError eErr = NetError::NET_OK;
         for (int32_t id = 0; id < m_iEpollWaitEventNum; ++id) {
             int32_t iConnFd = m_kEpollWaitEvents[id].data.fd;

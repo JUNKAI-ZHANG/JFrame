@@ -4,6 +4,7 @@
 #include "./NetService.h"
 
 #include <string.h>
+#include <functional>
 
 #include <iostream>
 
@@ -18,15 +19,21 @@ NetService::NetService() {
 NetService::~NetService() {
 }
 
-int32_t NetService::CloseFd(int32_t fd) {
-    if (fd == _m_socket_fd) {
+NetError NetService::CloseFd(int32_t iConnFd) {
+    NetError eErr = NetError::NET_OK;
+    if (iConnFd == m_kNetSocket->GetSocketFd()) {
     } else {
+        INetConnection* pConn = m_kConnPool->GetConnection(iConnFd);
+        if (pConn == nullptr) {
+            return NetError::NET_CONN_NOT_EXIST_ERR;
+        }
+        pConn->Close();
     }
-    close(fd);
-    return 1;
+    close(iConnFd);
+    return eErr;
 }
 
-NetError NetService::Working(int32_t port) {
+NetError NetService::Working(int32_t iPort) {
     NetError eErr = NetError::NET_OK;
     eErr = m_kNetSocket->Init();
     if (eErr != NetError::NET_OK) {
@@ -34,7 +41,7 @@ NetError NetService::Working(int32_t port) {
         return eErr;
     }
 
-    eErr = m_kNetSocket->Bind(0, port);
+    eErr = m_kNetSocket->Bind(0, iPort);
     if (eErr != NetError::NET_OK) {
         std::cout << "Bind Failed" << std::endl;
         return eErr;
@@ -53,7 +60,7 @@ NetError NetService::Working(int32_t port) {
         return eErr;
     }
 
-    eErr = m_kNetEpoll->AddEventToEpoll(m_kNetSocket->GetSocketFd());
+    eErr = m_kNetEpoll->EpollAdd(m_kNetSocket->GetSocketFd());
     if (eErr != NetError::NET_OK) {
         std::cout << "AddEventToEpoll Failed" << std::endl;
         m_kNetSocket->Close();
@@ -67,7 +74,11 @@ NetError NetService::Working(int32_t port) {
             return eErr;
         }
 
-        eErr = m_kNetEpoll->EpollHandleEvent(std::bind(&NetService::HandleEpollEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+        eErr = m_kNetEpoll->EpollHandleEvent(std::bind(&NetService::HandleEpollEvent, 
+                                                        this, 
+                                                        std::placeholders::_1, 
+                                                        std::placeholders::_2, 
+                                                        std::placeholders::_3));
         if (eErr != NetError::NET_OK) {
             std::cout << "EpollHandleEvent Failed" << std::endl;
             return eErr;
@@ -75,13 +86,14 @@ NetError NetService::Working(int32_t port) {
 
         this->DoTick();
     }
+    return eErr;
 }
 
 NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void *pData) {
     NetError eErr = NetError::NET_OK;
     if (kEvent.events & EPOLLIN) {
         if (iConnFd == m_kNetSocket->GetSocketFd()) {
-            eErr = HandleNewConnecionEvent(iConnFd);
+            eErr = HandleNewConnecionEvent();
             if (eErr != NetError::NET_OK) {
                 std::cout << "handleListenerEvent Failed" << std::endl;
                 return eErr;
@@ -107,46 +119,52 @@ NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void 
             return eErr;
         }
     }
+    return eErr;
+}
+
+NetError NetService::DoTick() {
+    // 控制频率
+    std::cout << "DoTick" << std::endl;
     return NetError::NET_OK;
 }
 
-void NetService::DoTick() {}
-
-NetError NetService::HandleNewConnecionEvent(int32_t iConnFd) {
+NetError NetService::HandleNewConnecionEvent() {
     NetError eErr = NetError::NET_OK;
-    struct sockaddr_in addr;
-    socklen_t addrlen = sizeof(addr);
-    int32_t accept_conn_fd = accept(_m_socket_fd, reinterpret_cast<struct sockaddr *>(&addr), &addrlen);
-
-    if (accept_conn_fd == -1) {
-        std::cout << "Failed to accept connection" << std::endl;
-        return NetError::NET_ERR;
+    int32_t iConnFd = 0;
+    
+    if ((eErr = m_kNetSocket->Accept(iConnFd)) != NetError::NET_OK) {
+        return eErr;
     }
 
-    std::cout << "Accepted connection from " << inet_ntoa(addr.sin_addr) << ":" << ntohs(addr.sin_port) << std::endl;
-
-    if (m_kNetEpoll->EpollAdd(accept_conn_fd) == -1) {
-        CloseFd(accept_conn_fd);
+    if ((eErr = m_kNetEpoll->EpollAdd(iConnFd)) != NetError::NET_OK) {
+        CloseFd(iConnFd);
         return NetError::NET_ERR;
     }
-    // Todo : 添加fd对应的buffer
-    return NetError::NET_OK;
+    // Todo : 添加进连接池
+    return eErr;
 }
 
-NetError NetService::HandleConnMsgEvent(int32_t fd) {
-    ssize_t body_size = 0;
-    ssize_t tmp_received;
-
-    // check connection state
-    if (m_umapConnsBuffer.find(fd) == m_umapConnsBuffer.end()) {
-        std::cout << "Cannot find client buffer, Did the socket be closed" << std::endl;
-        return NetError::NET_ERR;
+NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
+    NetError eErr = NetError::NET_OK;
+    if (m_kConnPool == nullptr) {
+        return NetError::NET_CONN_POOL_NULLPTR_ERR;
     }
 
-    // Receive data from client
+    INetConnection* pConn = m_kConnPool->GetConnection(iConnFd);
+    if (pConn == nullptr) {
+        return NetError::NET_CONN_NOT_EXIST_ERR;
+    }
+
+    if (pConn->GetRecvBuffer() == nullptr) {
+        std::cout << "Conn buffer is nullptr : " << pConn->ToString() << std::endl;
+        return NetError::NET_CONN_RECV_BUFFER_NULLPTR_ERR;
+    }
+
+    // Receive data
     uint8_t tmp[2048];
-    while ((tmp_received = recv(fd, tmp, 2048, MSG_DONTWAIT)) > 0) {
-        if (!m_umapConnsBuffer[fd]->AddBuffer(tmp, tmp_received)) {
+    ssize_t tmp_received = 0;
+    while ((tmp_received = recv(iConnFd, tmp, 2048, MSG_DONTWAIT)) > 0) {
+        if (!pConn->GetRecvBuffer()->AddBuffer(tmp, tmp_received)) {
             std::cout << "ServerBase : Client Read Buffer is Full" << std::endl;
             tmp_received = -1;
             break;
@@ -156,18 +174,18 @@ NetError NetService::HandleConnMsgEvent(int32_t fd) {
     if (tmp_received < 0) {
         if (errno == EAGAIN || errno == EWOULDBLOCK) {
             // 数据读取完毕
-            HandleReceivedMsg(fd);
+            HandleReceivedMsg(iConnFd);
         } else {
             std::cout << "ServerBase : Failed to read from connection" << std::endl;
-            CloseFd(fd);
+            CloseFd(iConnFd);
             return NetError::NET_ERR;
         }
     } else if (tmp_received == 0) {
         std::cout << "Connection closed by remote host" << std::endl;
-        CloseFd(fd);
+        CloseFd(iConnFd);
         return NetError::NET_ERR;
     }
-    return NetError::NET_OK;
+    return eErr;
 }
 
 NetError NetService::HandleReceivedMsg(int32_t fd) {
