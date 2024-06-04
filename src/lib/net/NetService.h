@@ -8,6 +8,7 @@
 #include "connection/ConnectionPool.h"
 #include "define/err.h"
 #include "epoll/epoll.h"
+#include "lib/logger/log.h"
 #include "socket/socket.h"
 
 class NetService {

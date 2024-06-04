@@ -12,6 +12,7 @@
 
 #include <iostream>
 
+#include "lib/logger/log.h"
 #include "lib/net/define/err.h"
 
 class NetSocket {
@@ -27,13 +28,14 @@ class NetSocket {
     NetError Init() {
         m_iSocketFd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, IPPROTO_TCP);
         if (GetSocketFd() == -1) {
-            std::cout << "Failed to create socket" << std::endl;
+            LogError("{module:NetSocket}", "Failed to create socket");
+
             return NET_SOCKET_CREATE_ERR;
         }
 
         int32_t ok = 1;
         if (setsockopt(GetSocketFd(), SOL_SOCKET, SO_REUSEADDR, &ok, sizeof(int32_t)) == -1) {
-            perror("setsockopt");
+            LogError("{module:NetSocket}", "Failed to set socket options");
             return NET_SOCKET_SET_OPT_ERR;
         }
         return NET_OK;
@@ -46,7 +48,7 @@ class NetSocket {
         kAddr.sin_port = htons(iPort);
         kAddr.sin_addr.s_addr = htonl(INADDR_ANY);
         if (bind(GetSocketFd(), reinterpret_cast<struct sockaddr*>(&kAddr), sizeof(kAddr)) == -1) {
-            std::cout << "Failed to bind address" << std::endl;
+            LogError("{module:NetSocket}", "Failed to bind address");
             this->Close();
             return NET_SOCKET_BIND_ERR;
         }
@@ -55,7 +57,7 @@ class NetSocket {
 
     NetError Listen() {
         if (listen(GetSocketFd(), SOMAXCONN) == -1) {
-            std::cout << "Failed to listen on socket" << std::endl;
+            LogError("{module:NetSocket}", "Failed to listen on socket");
             this->Close();
             return NET_SOCKET_LISTEN_ERR;
         }
@@ -65,13 +67,13 @@ class NetSocket {
     NetError Accept(int32_t& iAcceptFd) {
         struct sockaddr_in kAddr;
         socklen_t addrlen = sizeof(kAddr);
-        iAcceptFd = accept(m_iSocketFd, reinterpret_cast<struct sockaddr*>(&kAddr), &addrlen);
+        ;
 
-        if (iAcceptFd == -1) {
-            std::cout << "Failed to accept connection" << std::endl;
+        if ((iAcceptFd = accept(m_iSocketFd, reinterpret_cast<struct sockaddr*>(&kAddr), &addrlen)) == -1) {
+            LogError("{module:NetSocket}", "Failed to accept connection");
             return NetError::NET_SOCKET_ACCEPT_ERR;
         }
-        std::cout << "Accepted connection from " << inet_ntoa(kAddr.sin_addr) << ":" << ntohs(kAddr.sin_port) << std::endl;
+        LogInfo("{module:NetSocket}", "Accepted connection from", inet_ntoa(kAddr.sin_addr), ":", ntohs(kAddr.sin_port));
         return NetError::NET_OK;
     }
 
@@ -84,6 +86,7 @@ class NetSocket {
     */
 
     void Close() {
+        LogDebug("{module:NetSocket}", "Close socket", GetSocketFd());
         close(GetSocketFd());
     }
 

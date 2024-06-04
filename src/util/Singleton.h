@@ -5,8 +5,8 @@ template <typename T>
 class Singleton {
    public:
     static T& Instance() {
-        static T* _instance = new T;
-        return _instance;
+        static T* kInstance = new T;
+        return *kInstance;
     }
 
    protected:

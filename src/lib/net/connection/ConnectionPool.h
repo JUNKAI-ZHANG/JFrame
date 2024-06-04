@@ -13,26 +13,26 @@ class ConnectionPool {
         if (pConn == nullptr) {
             return;
         }
-        m_mapConn[pConn->GetSocketFd()] = pConn;
+        m_hmapConn[pConn->GetSocketFd()] = pConn;
     }
 
     void RemoveConnection(INetConnection* pConn) {
         if (pConn == nullptr) {
             return;
         }
-        m_mapConn.erase(pConn->GetSocketFd());
+        m_hmapConn.erase(pConn->GetSocketFd());
     }
 
     INetConnection* GetConnection(uint32_t iSocketFd) {
-        auto pConnIter = m_mapConn.find(iSocketFd);
-        if (pConnIter == m_mapConn.end()) {
+        auto pConnIter = m_hmapConn.find(iSocketFd);
+        if (pConnIter == m_hmapConn.end()) {
             return nullptr;
         }
         return pConnIter->second;
     }
 
    private:
-    std::unordered_map<uint32_t, INetConnection*> m_mapConn;
+    std::unordered_map<uint32_t, INetConnection*> m_hmapConn;
 };
 
 #endif  // NET_CONNECTION_CONNECTIONPOOL_H

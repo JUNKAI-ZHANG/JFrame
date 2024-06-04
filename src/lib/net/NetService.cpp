@@ -37,32 +37,32 @@ NetError NetService::Working(int32_t iPort) {
     NetError eErr = NetError::NET_OK;
     eErr = m_kNetSocket->Init();
     if (eErr != NetError::NET_OK) {
-        std::cout << "Init Failed" << std::endl;
+        LogError("{module:NetService}", "Init Failed");
         return eErr;
     }
 
     eErr = m_kNetSocket->Bind(0, iPort);
     if (eErr != NetError::NET_OK) {
-        std::cout << "Bind Failed" << std::endl;
+        LogError("{module:NetService}", "Bind Failed");
         return eErr;
     }
 
     eErr = m_kNetSocket->Listen();
     if (eErr != NetError::NET_OK) {
-        std::cout << "Listen Failed" << std::endl;
+        LogError("{module:NetService}", "Listen Failed");
         return eErr;
     }
 
     eErr = m_kNetEpoll->CreateEpoll();
     if (eErr != NetError::NET_OK) {
-        std::cout << "CreateEpoll Failed" << std::endl;
+        LogError("{module:NetService}", "CreateEpoll Failed");
         m_kNetSocket->Close();
         return eErr;
     }
 
     eErr = m_kNetEpoll->EpollAdd(m_kNetSocket->GetSocketFd());
     if (eErr != NetError::NET_OK) {
-        std::cout << "AddEventToEpoll Failed" << std::endl;
+        LogError("{module:NetService}", "AddEventToEpoll Failed");
         m_kNetSocket->Close();
         return eErr;
     }
@@ -70,7 +70,7 @@ NetError NetService::Working(int32_t iPort) {
     while (true) {
         eErr = m_kNetEpoll->EpollWait();
         if (eErr != NetError::NET_OK) {
-            std::cout << "EpollWait Failed" << std::endl;
+            LogError("{module:NetService}", "EpollWait Failed");
             return eErr;
         }
 
@@ -80,7 +80,7 @@ NetError NetService::Working(int32_t iPort) {
                                                        std::placeholders::_2,
                                                        std::placeholders::_3));
         if (eErr != NetError::NET_OK) {
-            std::cout << "EpollHandleEvent Failed" << std::endl;
+            LogError("{module:NetService}", "EpollHandleEvent Failed");
             return eErr;
         }
 
@@ -95,13 +95,13 @@ NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void*
         if (iConnFd == m_kNetSocket->GetSocketFd()) {
             eErr = HandleNewConnecionEvent();
             if (eErr != NetError::NET_OK) {
-                std::cout << "handleListenerEvent Failed" << std::endl;
+                LogError("{module:NetService}", "HandleNewConnecionEvent Failed");
                 return eErr;
             }
         } else {
             eErr = HandleConnMsgEvent(iConnFd);
             if (eErr != NetError::NET_OK) {
-                std::cout << "handleConnEvent" << std::endl;
+                LogError("{module:NetService}", "HandleConnMsgEvent Failed");
                 return eErr;
             }
         }
@@ -109,13 +109,13 @@ NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void*
     if (kEvent.events & EPOLLERR) {
         eErr = CloseFd(iConnFd);
         if (eErr != NetError::NET_OK) {
-            std::cout << "CloseFd(EPOLLERR) Failed" << std::endl;
+            LogError("{module:NetService}", "CloseFd(EPOLLERR) Failed");
             return eErr;
         }
     } else if (kEvent.events & EPOLLHUP) {
         eErr = CloseFd(iConnFd);
         if (eErr != NetError::NET_OK) {
-            std::cout << "CloseFd(EPOLLHUP) Failed" << std::endl;
+            LogError("{module:NetService}", "CloseFd(EPOLLHUP) Failed");
             return eErr;
         }
     }
@@ -124,7 +124,7 @@ NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void*
 
 NetError NetService::DoTick() {
     // 控制频率
-    std::cout << "DoTick" << std::endl;
+    LogInfo("{module:NetService}", "Now time is :", TimeUtil.GetNowS());
     return NetError::NET_OK;
 }
 
@@ -156,7 +156,7 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
     }
 
     if (pConn->GetRecvBuffer() == nullptr) {
-        std::cout << "Conn buffer is nullptr : " << pConn->ToString() << std::endl;
+        LogError("{module:NetService}", "Conn buffer is nullptr :", pConn->ToString());
         return NetError::NET_CONN_RECV_BUFFER_NULLPTR_ERR;
     }
 
@@ -165,7 +165,7 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
     ssize_t tmp_received = 0;
     while ((tmp_received = recv(iConnFd, tmp, 2048, MSG_DONTWAIT)) > 0) {
         if (!pConn->GetRecvBuffer()->AddBuffer(tmp, tmp_received)) {
-            std::cout << "ServerBase : Client Read Buffer is Full" << std::endl;
+            LogError("{module:NetService}", "Client Read Buffer is Full", pConn->ToString());
             tmp_received = -1;
             break;
         }
@@ -176,12 +176,12 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
             // 数据读取完毕
             HandleReceivedMsg(iConnFd);
         } else {
-            std::cout << "ServerBase : Failed to read from connection" << std::endl;
+            LogError("{module:NetService}", "Failed to read from connection", pConn->ToString());
             CloseFd(iConnFd);
             return NetError::NET_ERR;
         }
     } else if (tmp_received == 0) {
-        std::cout << "Connection closed by remote host" << std::endl;
+        LogError("{module:NetService}", "Connection closed by remote host", pConn->ToString());
         CloseFd(iConnFd);
         return NetError::NET_ERR;
     }

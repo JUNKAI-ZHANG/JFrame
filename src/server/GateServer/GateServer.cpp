@@ -4,9 +4,7 @@
 #include "GateServer.h"
 
 void GateServer::LaunchServer() {
-    Log* kLogger = new Log();
-    kLogger->Info("GateServer", "is running...", 1 + 2);
-
+    LogInfo("GateServer", "is running...");
     CommonServer::LaunchServer();
     return;
 }

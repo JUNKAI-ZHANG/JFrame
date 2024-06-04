@@ -12,6 +12,7 @@
 #include <functional>
 #include <iostream>
 
+#include "lib/logger/log.h"
 #include "lib/net/define/err.h"
 
 class NetEpoll {
@@ -32,9 +33,8 @@ class NetEpoll {
 
     NetError CreateEpoll() {
         // Since Linux 2.6.8, the size argument is ignored, but must be greater than zero;
-        m_iEpollFd = epoll_create(1);
-        if (m_iEpollFd == -1) {
-            std::cout << "Failed to create epoll instance" << std::endl;
+        if ((m_iEpollFd = epoll_create(1)) == -1) {
+            LogError("{module:NetEpoll}", "Failed to create epoll instance");
             return NET_EPOLL_CREATE_ERR;
         }
 
@@ -46,7 +46,7 @@ class NetEpoll {
         event.data.fd = fd;
 
         if (epoll_ctl(m_iEpollFd, EPOLL_CTL_ADD, fd, &event) == -1) {
-            std::cout << "Failed to add connection_fd to epoll instance" << std::endl;
+            LogError("{module:NetEpoll}", "Failed to add connection_fd to epoll instance");
             return NET_EPOLL_ADD_FD_ERR;
         }
 
@@ -54,23 +54,20 @@ class NetEpoll {
     }
 
     NetError EpollWait() {
-        m_iEpollWaitEventNum = epoll_wait(m_iEpollFd, m_kEpollWaitEvents, ms_iMaxConn, 1);
-        if (m_iEpollWaitEventNum == -1) {
-            std::cout << "Epoll_wait Failed" << std::endl;
+        if ((m_iEpollWaitEventNum = epoll_wait(m_iEpollFd, m_kEpollWaitEvents, ms_iMaxConn, 1)) == -1) {
+            LogError("{module:NetEpoll}", "Failed to wait for events");
             close(m_iEpollFd);
             return NET_EPOLL_WAIT_ERR;
         }
         return NetError::NET_OK;
     }
 
-    // NetError EpollHandleEvent(NetEpoll::EpollEventAction kEpollEventAction) {
     NetError EpollHandleEvent(std::function<NetError(int32_t, epoll_event, void*)> kEpollEventAction) {
         NetError eErr = NetError::NET_OK;
         for (int32_t id = 0; id < m_iEpollWaitEventNum; ++id) {
             int32_t iConnFd = m_kEpollWaitEvents[id].data.fd;
-            eErr = kEpollEventAction(iConnFd, m_kEpollWaitEvents[id], nullptr);
-            if (eErr != NetError::NET_OK) {
-                std::cout << "Handle event failed" << std::endl;
+            if ((eErr = kEpollEventAction(iConnFd, m_kEpollWaitEvents[id], nullptr)) != NetError::NET_OK) {
+                LogError("{module:NetEpoll}", "Handle event failed");
                 return eErr;
             }
         }

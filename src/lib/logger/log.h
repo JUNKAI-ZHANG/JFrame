@@ -1,35 +1,54 @@
 #ifndef LOG_LOG_H
 #define LOG_LOG_H
 
-#include <iostream>
+#include <stdio.h>
 
-class Log {
+#include <string>
+
+#include "util/Singleton.h"
+#include "util/Time.h"
+
+class Logger {
    public:
-    template <typename... Args>
-    void Debug(Args... args) {
-        std::cout << "[" << __DATE__ << " " << __TIME__ << "] [Debug] [" << (std::cout << ... << args) << "]" << std::endl;
+    explicit Logger() {
     }
 
     template <typename... Args>
-    void Info(Args... args) {
-        std::cout << "[" << __DATE__ << " " << __TIME__ << "] [Info] [";
-        (std::cout << ... << args) << "]" << std::endl;
+    inline void Format(const char* cLogLevel, Args... kArgs) {
+        printf("[%s][game][%s][%s:%d][%s]\n",
+               TimeUtil.DateTime(),
+               cLogLevel,
+               __FILE__,
+               __LINE__,
+               ArgsExpansion(kArgs...).c_str());
     }
 
-    template <typename... Args>
-    void Warn(Args... args) {
-        std::cout << "[" << __DATE__ << " " << __TIME__ << "] [Warn] [" << (std::cout << ... << args) << "]" << std::endl;
+    // 递归展开参数列表并转换为字符串
+    template <typename T>
+    void ArgsExpansion(std::ostringstream& kOStringStream, const T& kArg) {
+        kOStringStream << kArg;
     }
 
-    template <typename... Args>
-    void Error(Args... args) {
-        std::cout << "[" << __DATE__ << " " << __TIME__ << "] [Error] [" << (std::cout << ... << args) << "]" << std::endl;
+    template <typename T, typename... Args>
+    void ArgsExpansion(std::ostringstream& kOStringStream, const T& kArg, const Args&... kArgs) {
+        kOStringStream << kArg << " ";
+        ArgsExpansion(kOStringStream, kArgs...);
     }
 
+    // 将参数列表 Args... args 转为字符串
     template <typename... Args>
-    void Fatal(Args... args) {
-        std::cout << "[" << __DATE__ << " " << __TIME__ << "] [Fatal] [" << (std::cout << ... << args) << "]" << std::endl;
+    std::string ArgsExpansion(Args... kArgs) {
+        std::ostringstream kOStringStream;
+        ArgsExpansion(kOStringStream, kArgs...);
+        return kOStringStream.str();
     }
 };
+
+#define Log Singleton<Logger>::Instance()
+#define LogDebug(...) printf("[%s][game][Debug][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
+#define LogInfo(...) printf("[%s][game][Info][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
+#define LogWarn(...) printf("[%s][game][Warn][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
+#define LogError(...) printf("[%s][game][Error][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
+#define LogFatal(...) printf("[%s][game][Fatal][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
 
 #endif  // LOG_LOG_H
