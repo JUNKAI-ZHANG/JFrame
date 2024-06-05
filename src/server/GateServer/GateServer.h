@@ -1,7 +1,6 @@
 #ifndef __GATESERVER_H_
 #define __GATESERVER_H_
 
-#include "../../lib/logger/log.h"
 #include "../CommonServer/CommonServer.h"
 #include "../CommonServer/CreateServerContext.h"
 

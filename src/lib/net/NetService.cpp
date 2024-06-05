@@ -35,41 +35,36 @@ NetError NetService::CloseFd(int32_t iConnFd) {
 
 NetError NetService::Working(int32_t iPort) {
     NetError eErr = NetError::NET_OK;
-    eErr = m_kNetSocket->Init();
-    if (eErr != NetError::NET_OK) {
+
+    if ((eErr = m_kNetSocket->Init()) != NetError::NET_OK) {
         LogError("{module:NetService}", "Init Failed");
         return eErr;
     }
 
-    eErr = m_kNetSocket->Bind(0, iPort);
-    if (eErr != NetError::NET_OK) {
+    if ((eErr = m_kNetSocket->Bind(0, iPort)) != NetError::NET_OK) {
         LogError("{module:NetService}", "Bind Failed");
         return eErr;
     }
 
-    eErr = m_kNetSocket->Listen();
-    if (eErr != NetError::NET_OK) {
+    if ((eErr = m_kNetSocket->Listen()) != NetError::NET_OK) {
         LogError("{module:NetService}", "Listen Failed");
         return eErr;
     }
 
-    eErr = m_kNetEpoll->CreateEpoll();
-    if (eErr != NetError::NET_OK) {
+    if ((eErr = m_kNetEpoll->CreateEpoll()) != NetError::NET_OK) {
         LogError("{module:NetService}", "CreateEpoll Failed");
         m_kNetSocket->Close();
         return eErr;
     }
 
-    eErr = m_kNetEpoll->EpollAdd(m_kNetSocket->GetSocketFd());
-    if (eErr != NetError::NET_OK) {
+    if ((eErr = m_kNetEpoll->EpollAdd(m_kNetSocket->GetSocketFd())) != NetError::NET_OK) {
         LogError("{module:NetService}", "AddEventToEpoll Failed");
         m_kNetSocket->Close();
         return eErr;
     }
 
     while (true) {
-        eErr = m_kNetEpoll->EpollWait();
-        if (eErr != NetError::NET_OK) {
+        if ((eErr = m_kNetEpoll->EpollWait()) != NetError::NET_OK) {
             LogError("{module:NetService}", "EpollWait Failed");
             return eErr;
         }
@@ -93,38 +88,57 @@ NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void*
     NetError eErr = NetError::NET_OK;
     if (kEvent.events & EPOLLIN) {
         if (iConnFd == m_kNetSocket->GetSocketFd()) {
-            eErr = HandleNewConnecionEvent();
-            if (eErr != NetError::NET_OK) {
+            if ((eErr = HandleNewConnecionEvent()) != NetError::NET_OK) {
                 LogError("{module:NetService}", "HandleNewConnecionEvent Failed");
                 return eErr;
             }
         } else {
-            eErr = HandleConnMsgEvent(iConnFd);
-            if (eErr != NetError::NET_OK) {
+            if ((eErr = HandleConnMsgEvent(iConnFd)) != NetError::NET_OK) {
                 LogError("{module:NetService}", "HandleConnMsgEvent Failed");
                 return eErr;
             }
         }
     }
     if (kEvent.events & EPOLLERR) {
-        eErr = CloseFd(iConnFd);
-        if (eErr != NetError::NET_OK) {
+        if ((eErr = CloseFd(iConnFd)) != NetError::NET_OK) {
             LogError("{module:NetService}", "CloseFd(EPOLLERR) Failed");
             return eErr;
         }
     } else if (kEvent.events & EPOLLHUP) {
-        eErr = CloseFd(iConnFd);
-        if (eErr != NetError::NET_OK) {
+        if ((eErr = CloseFd(iConnFd)) != NetError::NET_OK) {
             LogError("{module:NetService}", "CloseFd(EPOLLHUP) Failed");
             return eErr;
         }
     }
     return eErr;
 }
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
+
+sudo firewall-cmd --zone=public --add-port=6666/tcp --permanent
+
+sudo yum install net-tools -y
+sudo netstat -tulnp | grep 6666
+
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+
+sudo systemctl start iptables
+sudo systemctl enable iptables
+
+# 开放单个端口
+sudo iptables -A INPUT -p tcp --dport 6666 -j ACCEPT
+
+# 开放端口区间
+sudo iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 40000:40010 -j ACCEPT
+
+# 保存iptables规则
+sudo service iptables save
+
 
 NetError NetService::DoTick() {
     // 控制频率
-    LogInfo("{module:NetService}", "Now time is :", TimeUtil.GetNowS());
+    // LogInfo("{module:NetService}", "Now time is :", TimeUtil.GetNowS());
     return NetError::NET_OK;
 }
 
