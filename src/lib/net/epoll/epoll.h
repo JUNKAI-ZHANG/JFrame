@@ -35,19 +35,28 @@ class NetEpoll {
         // Since Linux 2.6.8, the size argument is ignored, but must be greater than zero;
         if ((m_iEpollFd = epoll_create(1)) == -1) {
             LogError("{module:NetEpoll}", "Failed to create epoll instance");
-            return NET_EPOLL_CREATE_ERR;
+            return NetError::NET_EPOLL_CREATE_ERR;
         }
 
         return NetError::NET_OK;
     }
-    NetError EpollAdd(int fd) {
+    NetError EpollAdd(int iEvnetFd) {
         struct epoll_event event;
         event.events = EPOLLIN | EPOLLERR | EPOLLHUP;
-        event.data.fd = fd;
+        event.data.fd = iEvnetFd;
 
-        if (epoll_ctl(m_iEpollFd, EPOLL_CTL_ADD, fd, &event) == -1) {
+        if (epoll_ctl(m_iEpollFd, EPOLL_CTL_ADD, iEvnetFd, &event) == -1) {
             LogError("{module:NetEpoll}", "Failed to add connection_fd to epoll instance");
-            return NET_EPOLL_ADD_FD_ERR;
+            return NetError::NET_EPOLL_ADD_FD_ERR;
+        }
+
+        return NetError::NET_OK;
+    }
+
+    NetError EpollDel(int iEvnetFd) {
+        if (epoll_ctl(m_iEpollFd, EPOLL_CTL_DEL, iEvnetFd, nullptr) == -1) {
+            LogError("{module:NetEpoll}", "Failed to delete connection_fd from epoll instance");
+            return NetError::NET_EPOLL_DEL_FD_ERR;
         }
 
         return NetError::NET_OK;

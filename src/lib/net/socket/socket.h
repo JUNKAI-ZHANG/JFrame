@@ -13,6 +13,7 @@
 #include <iostream>
 
 #include "lib/log/log.h"
+#include "lib/net/connection/IConnectionContext.h"
 #include "lib/net/define/err.h"
 
 class NetSocket {
@@ -30,15 +31,15 @@ class NetSocket {
         if (GetSocketFd() == -1) {
             LogError("{module:NetSocket}", "Failed to create socket");
 
-            return NET_SOCKET_CREATE_ERR;
+            return NetError::NET_SOCKET_CREATE_ERR;
         }
 
         int32_t ok = 1;
         if (setsockopt(GetSocketFd(), SOL_SOCKET, SO_REUSEADDR, &ok, sizeof(int32_t)) == -1) {
             LogError("{module:NetSocket}", "Failed to set socket options");
-            return NET_SOCKET_SET_OPT_ERR;
+            return NetError::NET_SOCKET_SET_OPT_ERR;
         }
-        return NET_OK;
+        return NetError::NET_OK;
     }
 
     NetError Bind(uint32_t iIp, uint16_t iPort) {
@@ -50,30 +51,32 @@ class NetSocket {
         if (bind(GetSocketFd(), reinterpret_cast<struct sockaddr*>(&kAddr), sizeof(kAddr)) == -1) {
             LogError("{module:NetSocket}", "Failed to bind address");
             this->Close();
-            return NET_SOCKET_BIND_ERR;
+            return NetError::NET_SOCKET_BIND_ERR;
         }
-        return NET_OK;
+        return NetError::NET_OK;
     }
 
     NetError Listen() {
         if (listen(GetSocketFd(), SOMAXCONN) == -1) {
             LogError("{module:NetSocket}", "Failed to listen on socket");
             this->Close();
-            return NET_SOCKET_LISTEN_ERR;
+            return NetError::NET_SOCKET_LISTEN_ERR;
         }
-        return NET_OK;
+        return NetError::NET_OK;
     }
 
-    NetError Accept(int32_t& iAcceptFd) {
+    NetError Accept(int32_t& iAcceptFd, IConnectionContext*& pConnCtx) {
         struct sockaddr_in kAddr;
         socklen_t addrlen = sizeof(kAddr);
-        ;
 
         if ((iAcceptFd = accept(m_iSocketFd, reinterpret_cast<struct sockaddr*>(&kAddr), &addrlen)) == -1) {
             LogError("{module:NetSocket}", "Failed to accept connection");
             return NetError::NET_SOCKET_ACCEPT_ERR;
         }
-        LogInfo("{module:NetSocket}", "Accepted connection from", inet_ntoa(kAddr.sin_addr), ":", ntohs(kAddr.sin_port));
+        // LogInfo("{module:NetSocket}", "Accepted connection,", this->toString(kAddr));
+
+        pConnCtx = new IConnectionContext(ntohl(kAddr.sin_addr.s_addr), ntohs(kAddr.sin_port), iAcceptFd, TimeUtil.GetNowMs());
+
         return NetError::NET_OK;
     }
 
@@ -88,6 +91,13 @@ class NetSocket {
     void Close() {
         LogDebug("{module:NetSocket}", "Close socket", GetSocketFd());
         close(GetSocketFd());
+    }
+
+   private:
+    std::string toString(sockaddr_in kAddr) {
+        char pStr[24] = {0};
+        sprintf(pStr, "ip:%s port:%d", inet_ntoa(kAddr.sin_addr), ntohs(kAddr.sin_port));
+        return std::string(pStr);
     }
 
    private:

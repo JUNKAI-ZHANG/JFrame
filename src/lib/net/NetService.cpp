@@ -94,7 +94,7 @@ NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void*
             }
         } else {
             if ((eErr = HandleConnMsgEvent(iConnFd)) != NetError::NET_OK) {
-                LogError("{module:NetService}", "HandleConnMsgEvent Failed");
+                LogError("{module:NetService}", "HandleConnMsgEvent Failed", eErr);
                 return eErr;
             }
         }
@@ -112,29 +112,6 @@ NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void*
     }
     return eErr;
 }
-sudo systemctl start firewalld
-sudo systemctl enable firewalld
-
-sudo firewall-cmd --zone=public --add-port=6666/tcp --permanent
-
-sudo yum install net-tools -y
-sudo netstat -tulnp | grep 6666
-
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
-
-sudo systemctl start iptables
-sudo systemctl enable iptables
-
-# 开放单个端口
-sudo iptables -A INPUT -p tcp --dport 6666 -j ACCEPT
-
-# 开放端口区间
-sudo iptables -A INPUT -m state --state NEW -m tcp -p tcp --dport 40000:40010 -j ACCEPT
-
-# 保存iptables规则
-sudo service iptables save
-
 
 NetError NetService::DoTick() {
     // 控制频率
@@ -145,8 +122,9 @@ NetError NetService::DoTick() {
 NetError NetService::HandleNewConnecionEvent() {
     NetError eErr = NetError::NET_OK;
     int32_t iConnFd = 0;
+    IConnectionContext* pConnCtx = nullptr;
 
-    if ((eErr = m_kNetSocket->Accept(iConnFd)) != NetError::NET_OK) {
+    if ((eErr = m_kNetSocket->Accept(iConnFd, pConnCtx)) != NetError::NET_OK) {
         return eErr;
     }
 
@@ -154,18 +132,29 @@ NetError NetService::HandleNewConnecionEvent() {
         CloseFd(iConnFd);
         return NetError::NET_ERR;
     }
+    if (m_kConnPool == nullptr) {
+        LogError("{module:NetService}", "ConnPool is nullptr");
+        return NetError::NET_CONN_POOL_NULLPTR_ERR;
+    }
     // Todo : 添加进连接池
+    INetConnection* pConn = new INetConnection(pConnCtx);
+    m_kConnPool->AddConnection(pConn);
+
+    LogInfo("{module:NetService}", "Accepted connection,", pConn->ToString());
+
     return eErr;
 }
 
 NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
     NetError eErr = NetError::NET_OK;
     if (m_kConnPool == nullptr) {
+        LogError("{module:NetService}", "ConnPool is nullptr");
         return NetError::NET_CONN_POOL_NULLPTR_ERR;
     }
 
     INetConnection* pConn = m_kConnPool->GetConnection(iConnFd);
     if (pConn == nullptr) {
+        LogError("{module:NetService}", "Conn is nullptr");
         return NetError::NET_CONN_NOT_EXIST_ERR;
     }
 
@@ -195,9 +184,11 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
             return NetError::NET_ERR;
         }
     } else if (tmp_received == 0) {
-        LogError("{module:NetService}", "Connection closed by remote host", pConn->ToString());
+        LogError("{module:NetService}", "Closed connection,", pConn->ToString());
+        // 先将fd从epoll删除，再关闭fd
+        m_kNetEpoll->EpollDel(iConnFd);
+        m_kConnPool->RemoveConnection(pConn);
         CloseFd(iConnFd);
-        return NetError::NET_ERR;
     }
     return eErr;
 }

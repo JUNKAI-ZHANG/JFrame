@@ -12,23 +12,23 @@
 
 class Time {
    public:
-    static long GetNowS() {
+    static uint64_t GetNowS() {
         return std::time(nullptr);
     }
 
-    static long GetNowMs() {
+    static uint64_t GetNowMs() {
         struct timeval tv;
         gettimeofday(&tv, nullptr);
         return tv.tv_sec * 1000 + tv.tv_usec / 1000;
     }
 
-    static long GetNowMicroS() {
+    static uint64_t GetNowMicroS() {
         struct timeval tv;
         gettimeofday(&tv, nullptr);
         return tv.tv_sec * 1000000 + tv.tv_usec;
     }
 
-    static long long GetNowNs() {
+    static uint64_t GetNowNs() {
         struct timespec ts;
         clock_gettime(CLOCK_REALTIME, &ts);
         return static_cast<long long>(ts.tv_sec) * 1000000000 + ts.tv_nsec;

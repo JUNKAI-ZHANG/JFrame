@@ -18,6 +18,7 @@ enum NetError {
     NET_EPOLL_CREATE_ERR = 61,  // epoll create error
     NET_EPOLL_ADD_FD_ERR = 62,  // epoll add fd error
     NET_EPOLL_WAIT_ERR = 63,    // epoll wait error
+    NET_EPOLL_DEL_FD_ERR = 64,  // epoll del fd error
 
     NET_CONN_NOT_EXIST_ERR = 81,  // connection not exist error
 
