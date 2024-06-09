@@ -1,8 +1,8 @@
 #ifndef __GATESERVER_H_
 #define __GATESERVER_H_
 
-#include "../CommonServer/CommonServer.h"
-#include "../CommonServer/CreateServerContext.h"
+#include "libserver/CommonServer/CommonServer.h"
+#include "libserver/CommonServer/CreateServerContext.h"
 
 class GateServer : public CommonServer {
    public:
@@ -17,5 +17,7 @@ class GateServer : public CommonServer {
    protected:
    private:
 };
+
+#define GateServer
 
 #endif  // __GATESERVER_H_

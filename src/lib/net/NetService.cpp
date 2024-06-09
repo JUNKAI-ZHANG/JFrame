@@ -8,6 +8,8 @@
 #include <functional>
 #include <iostream>
 
+#include "./message/MessageHead.h"
+
 class NetService;
 
 NetService::NetService() {
@@ -164,7 +166,7 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
     }
 
     // Receive data
-    uint8_t tmp[2048];
+    char tmp[2048];
     ssize_t tmp_received = 0;
     while ((tmp_received = recv(iConnFd, tmp, 2048, MSG_DONTWAIT)) > 0) {
         if (!pConn->GetRecvBuffer()->AddBuffer(tmp, tmp_received)) {
@@ -172,6 +174,8 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
             tmp_received = -1;
             break;
         }
+        LogInfo("{module:NetService}", "Received data from connection, size:", tmp_received);
+        // jk's todo : 统计接收到的数据量
     }
 
     if (tmp_received < 0) {
@@ -184,7 +188,7 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
             return NetError::NET_ERR;
         }
     } else if (tmp_received == 0) {
-        LogError("{module:NetService}", "Closed connection,", pConn->ToString());
+        LogInfo("{module:NetService}", "Closed connection,", pConn->ToString());
         // 先将fd从epoll删除，再关闭fd
         m_kNetEpoll->EpollDel(iConnFd);
         m_kConnPool->RemoveConnection(pConn);
@@ -193,8 +197,37 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
     return eErr;
 }
 
-NetError NetService::HandleReceivedMsg(int32_t fd) {
-    // Todo : 处理接收到的消息
+NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
+    LogInfo("{module:NetService}", "HandleReceivedMsg");
+    // Deal Message
+    INetConnection* pConn = m_kConnPool->GetConnection(iConnFd);
+    if (pConn == nullptr) {
+        LogError("{module:NetService}", "Conn is nullptr");
+        return NetError::NET_CONN_NOT_EXIST_ERR;
+    }
+
+    if (pConn->GetRecvBuffer() == nullptr) {
+        LogError("{module:NetService}", "Conn buffer is nullptr :", pConn->ToString());
+        return NetError::NET_CONN_RECV_BUFFER_NULLPTR_ERR;
+    }
+
+    do {
+        //
+        // Todo : 解析消息头
+        char* pMsgHead = pConn->GetRecvBuffer()->GetBuffer(MESSAGE_HEAD_SIZE);
+        MessageHead* pHead = new MessageHead();
+        pHead->DecodeMessageHeadBytes(pMsgHead);
+
+        // Todo : 解析消息体
+        pHead->PrintMessageHead();
+        // if (pHead->GetMsgLen() > )
+        // Todo : 处理消息
+        // DispatchMsg(pHead, pConn->GetRecvBuffer());
+
+        // Todo : 释放消息头
+        // Todo : 释放消息体
+    } while (pConn->GetRecvBuffer()->GetCapacity() >= MESSAGE_HEAD_SIZE);
+
     return NetError::NET_OK;
 }
 

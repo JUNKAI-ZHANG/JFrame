@@ -12,7 +12,7 @@ class RingBuffer {
      * @brief default construct will distribute MAX_BUFFER_SIZE
      */
     RingBuffer() {
-        _m_buffer = new uint8_t[MAX_BUFFER_SIZE];
+        _m_buffer = new char[MAX_BUFFER_SIZE];
         _m_begin = _m_end = _m_capacity = 0;
         _m_remain = MAX_BUFFER_SIZE;
     }
@@ -26,7 +26,7 @@ class RingBuffer {
     /*
      * @brief 向缓存区里添加一段新的Buffer
      */
-    bool AddBuffer(uint8_t *buffer, uint32_t size) {
+    bool AddBuffer(char *buffer, uint32_t size) {
         if (size > _m_remain) {
             return false;
         }
@@ -60,9 +60,9 @@ class RingBuffer {
     /*
      * @brief 需要手动释放!!
      */
-    uint8_t *GetBuffer(uint32_t len) {
+    char *GetBuffer(uint32_t len) {
         uint32_t start = _m_begin;
-        uint8_t *ret = new uint8_t[len];
+        char *ret = new char[len];
 
         for (uint32_t i = 0; i < len; i++) {
             ret[i] = _m_buffer[start];
@@ -86,7 +86,7 @@ class RingBuffer {
         return _m_capacity;
     }
 
-    uint8_t operator[](int id) {
+    char operator[](int id) {
         if (id < 0 || id >= MAX_BUFFER_SIZE) {
             return 0;
         }
@@ -94,7 +94,7 @@ class RingBuffer {
     }
 
    private:
-    uint8_t *_m_buffer;
+    char *_m_buffer;
     uint32_t _m_begin;
     uint32_t _m_end;
 
