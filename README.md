@@ -6,7 +6,11 @@
 1. 不使用git merge 产生新提交
 2. Dev开发，稳定版本使用Fast-Forward Merge到Master，使git历史清晰
 
-### 代码规范
+### 代码规范(Google 规范)
+
+```
+{ BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, ColumnLimit: 0, IfElseSpacing : After}
+```
 
 #### 变量
 1. 标识
