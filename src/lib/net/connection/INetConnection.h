@@ -7,7 +7,7 @@
 #include <string>
 
 #include "IConnectionContext.h"
-#include "util/RingBuffer.h"
+#include "lib/util/RingBuffer.h"
 
 class INetConnection {
    public:

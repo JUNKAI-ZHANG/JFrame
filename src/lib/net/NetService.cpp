@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "./message/MessageHead.h"
+#include "proto/msg_cs_common.pb.h"
 
 class NetService;
 
@@ -19,6 +20,9 @@ NetService::NetService() {
 }
 
 NetService::~NetService() {
+    delete m_kNetEpoll;
+    delete m_kNetSocket;
+    delete m_kConnPool;
 }
 
 NetError NetService::CloseFd(int32_t iConnFd) {
@@ -198,8 +202,6 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
 }
 
 NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
-    LogInfo("{module:NetService}", "HandleReceivedMsg");
-    // Deal Message
     INetConnection* pConn = m_kConnPool->GetConnection(iConnFd);
     if (pConn == nullptr) {
         LogError("{module:NetService}", "Conn is nullptr");
@@ -211,22 +213,48 @@ NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
         return NetError::NET_CONN_RECV_BUFFER_NULLPTR_ERR;
     }
 
+    bool bSuccDecodeOnePackage = false;
+
     do {
-        //
         // Todo : 解析消息头
-        char* pMsgHead = pConn->GetRecvBuffer()->GetBuffer(MESSAGE_HEAD_SIZE);
-        MessageHead* pHead = new MessageHead();
-        pHead->DecodeMessageHeadBytes(pMsgHead);
+        MessageHead* pMsgHead = nullptr;
+        if (pConn->GetRecvBuffer()->GetCapacity() >= MESSAGE_HEAD_SIZE) {
+            pMsgHead = new MessageHead();
+            pMsgHead->DecodeMessageHeadBytes(pConn->GetRecvBuffer()->GetBuffer(MESSAGE_HEAD_SIZE));
+            pMsgHead->PrintMessageHead();
+        } else {
+            break;
+        }
+
+        // 消息头合法性校验
 
         // Todo : 解析消息体
-        pHead->PrintMessageHead();
-        // if (pHead->GetMsgLen() > )
+        char* pMsgBodyBytes = nullptr;
+        if (pConn->GetRecvBuffer()->GetCapacity() >= pMsgHead->GetMsgLen()) {
+            pConn->GetRecvBuffer()->PopBuffer(MESSAGE_HEAD_SIZE);
+            pMsgBodyBytes = pConn->GetRecvBuffer()->GetBuffer(pMsgHead->GetMsgLen() - MESSAGE_HEAD_SIZE);
+            pConn->GetRecvBuffer()->PopBuffer(pMsgHead->GetMsgLen() - MESSAGE_HEAD_SIZE);
+
+            bSuccDecodeOnePackage = true;
+        } else {
+            break;
+        }
         // Todo : 处理消息
-        // DispatchMsg(pHead, pConn->GetRecvBuffer());
+        // DispatchMsg(pMsgHead, pMsgBodyBytes);
+        CSMessage::PlayerLoginReq kReq;
+        kReq.ParseFromArray(pMsgBodyBytes, pMsgHead->GetMsgLen() - MESSAGE_HEAD_SIZE);
+        LogInfo("Message : ", kReq.ShortDebugString());
 
         // Todo : 释放消息头
+        if (pMsgHead != nullptr) {
+            delete pMsgHead;
+        }
+
         // Todo : 释放消息体
-    } while (pConn->GetRecvBuffer()->GetCapacity() >= MESSAGE_HEAD_SIZE);
+        if (pMsgBodyBytes != nullptr) {
+            delete pMsgBodyBytes;
+        }
+    } while (bSuccDecodeOnePackage);
 
     return NetError::NET_OK;
 }

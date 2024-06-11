@@ -13,7 +13,7 @@ class BlockQueue {
     typedef std::deque<T> TList;
 
     // maxCapacity为-1，代表队列无最大限制
-    explicit BlockQueue(const int iMaxCapacity = -1) : m_iMaxCapacity(iMaxCapacity) {
+    explicit BlockQueue(const size_t iMaxCapacity = -1) : m_iMaxCapacity(iMaxCapacity) {
     }
 
     size_t size() {
@@ -24,7 +24,7 @@ class BlockQueue {
     void insert_deque_front(TList& list) {
         TLock lock(m_kMutex);
         if (hasCapacity()) {
-            while (m_list.size() + list.size() >= (size_t)m_iMaxCapacity) {
+            while (m_list.size() + list.size() >= m_iMaxCapacity) {
                 m_kNotFull.wait(lock);
             }
         }
@@ -36,7 +36,7 @@ class BlockQueue {
     void push_back(const T& item) {
         TLock lock(m_kMutex);
         if (hasCapacity()) {
-            while (m_list.size() >= (size_t)m_iMaxCapacity) {
+            while (m_list.size() >= m_iMaxCapacity) {
                 m_kNotFull.wait(lock);
             }
         }
@@ -48,7 +48,7 @@ class BlockQueue {
     void push_front(const T& item) {
         TLock lock(m_kMutex);
         if (hasCapacity()) {
-            while (m_list.size() >= (size_t)m_iMaxCapacity) {
+            while (m_list.size() >= m_iMaxCapacity) {
                 m_kNotFull.wait(lock);
             }
         }
@@ -57,7 +57,7 @@ class BlockQueue {
         m_kNotEmpty.notify_all();
     }
 
-    void swap(std::deque<T>& tlist) {
+    void swap(TList& tlist) {
         TLock lock(m_kMutex);
         while (m_list.empty()) {
             m_kNotEmpty.wait(lock);
@@ -68,7 +68,7 @@ class BlockQueue {
         m_kNotFull.notify_all();
     }
 
-    void swap_timeout(uint32_t timeout_ms, std::deque<T>& tlist) {
+    void swap_timeout(uint32_t timeout_ms, TList& tlist) {
         TLock lock(m_kMutex);
         while (m_list.empty()) {
             if (m_kNotEmpty.wait_for(lock, std::chrono::milliseconds(timeout_ms)) == std::cv_status::timeout) {
@@ -95,7 +95,7 @@ class BlockQueue {
         return temp;
     }
 
-    void pop_timeout(uint32_t iTimeoutMs, std::deque<T>& listMsg) {
+    void pop_timeout(uint32_t iTimeoutMs, TList& listMsg) {
         TLock lock(m_kMutex);
         while (m_list.empty()) {
             if (m_kNotEmpty.wait_for(lock, std::chrono::milliseconds(iTimeoutMs)) == std::cv_status::timeout) {

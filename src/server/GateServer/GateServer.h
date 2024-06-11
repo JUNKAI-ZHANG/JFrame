@@ -18,6 +18,4 @@ class GateServer : public CommonServer {
    private:
 };
 
-#define GateServer
-
 #endif  // __GATESERVER_H_

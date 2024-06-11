@@ -23,6 +23,7 @@ file(GLOB_RECURSE src_3rd_spdlog    src/3rd/spdlog/*.cpp    src/3rd/spdlog/*.h  
 # JFrame/src/lib
 file(GLOB_RECURSE src_lib_log src/lib/log/*.cpp src/lib/log/*.h src/lib/log/*.hpp src/lib/log/*.cc)
 file(GLOB_RECURSE src_lib_net src/lib/net/*.cpp src/lib/net/*.h src/lib/net/*.hpp src/lib/net/*.cc)
+file(GLOB_RECURSE src_lib_util src/lib/util/*.cpp src/lib/util/*.h src/lib/util/*.hpp src/lib/util/*.cc)
 
 # JFrame/src/proto
 file(GLOB_RECURSE src_proto_ss src/proto/msg_ss*.* )
@@ -49,6 +50,7 @@ add_executable(GateServer
     ${src_3rd_spdlog}
     ${src_lib_log}
     ${src_lib_net}
+    ${src_lib_util}
     ${src_proto_ss}
     ${src_proto_cs}
     ${src_proto_cm}

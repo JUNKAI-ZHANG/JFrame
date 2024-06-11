@@ -5,8 +5,8 @@
 
 #include <string>
 
-#include "util/Singleton.h"
-#include "util/Time.h"
+#include "lib/util/Singleton.h"
+#include "lib/util/Time.h"
 
 class Logger {
    public:
