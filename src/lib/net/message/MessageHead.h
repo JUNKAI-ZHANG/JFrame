@@ -3,6 +3,8 @@
 
 #define MESSAGE_HEAD_SIZE 32
 
+#include <string.h>
+
 /*
 msg head total : 32 bytes
 -------------------------------------

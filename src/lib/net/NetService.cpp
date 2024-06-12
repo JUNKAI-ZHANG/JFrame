@@ -17,6 +17,7 @@ NetService::NetService() {
     m_kNetEpoll = new NetEpoll();
     m_kNetSocket = new NetSocket();
     m_kConnPool = new ConnectionPool();
+    m_kNetMessageMgr = new NetMessageMgr();
 }
 
 NetService::~NetService() {
@@ -178,7 +179,7 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
             tmp_received = -1;
             break;
         }
-        LogInfo("{module:NetService}", "Received data from connection, size:", tmp_received);
+        // LogInfo("{module:NetService}", "Received data from connection, size:", tmp_received);
         // jk's todo : 统计接收到的数据量
     }
 
@@ -221,7 +222,6 @@ NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
         if (pConn->GetRecvBuffer()->GetCapacity() >= MESSAGE_HEAD_SIZE) {
             pMsgHead = new MessageHead();
             pMsgHead->DecodeMessageHeadBytes(pConn->GetRecvBuffer()->GetBuffer(MESSAGE_HEAD_SIZE));
-            pMsgHead->PrintMessageHead();
         } else {
             break;
         }
@@ -240,20 +240,24 @@ NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
             break;
         }
         // Todo : 处理消息
-        // DispatchMsg(pMsgHead, pMsgBodyBytes);
+        /*
         CSMessage::PlayerLoginReq kReq;
         kReq.ParseFromArray(pMsgBodyBytes, pMsgHead->GetMsgLen() - MESSAGE_HEAD_SIZE);
         LogInfo("Message : ", kReq.ShortDebugString());
+        */
+        m_kNetMessageMgr->Add(pMsgHead, pMsgBodyBytes, pConn);
 
-        // Todo : 释放消息头
-        if (pMsgHead != nullptr) {
-            delete pMsgHead;
-        }
+        /*
+                // Todo : 释放消息头
+                if (pMsgHead != nullptr) {
+                    delete pMsgHead;
+                }
 
-        // Todo : 释放消息体
-        if (pMsgBodyBytes != nullptr) {
-            delete pMsgBodyBytes;
-        }
+                // Todo : 释放消息体
+                if (pMsgBodyBytes != nullptr) {
+                    delete pMsgBodyBytes;
+                }
+        */
     } while (bSuccDecodeOnePackage);
 
     return NetError::NET_OK;

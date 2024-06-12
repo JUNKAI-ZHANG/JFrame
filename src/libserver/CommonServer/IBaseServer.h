@@ -22,6 +22,8 @@ class IBaseServer {
     CreateServerContext* GetCreateServerContext() { return m_kCreateServerContext; }
     NetService* GetNetService() { return m_kNetService; }
 
+    virtual void ProcessNetMessage() = 0;
+
    private:
     CreateServerContext* m_kCreateServerContext;
 

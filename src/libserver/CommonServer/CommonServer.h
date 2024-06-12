@@ -12,6 +12,7 @@ class CommonServer : public IBaseServer {
 
    protected:
     virtual void LaunchServer() override;
+    virtual void ProcessNetMessage() override;
 
    private:
 };
