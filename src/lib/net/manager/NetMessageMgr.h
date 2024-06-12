@@ -14,13 +14,22 @@ class NetMessage {
     friend NetMessageMgr;
 
    public:
-    explicit NetMessage(MessageHead* kMessageHead, char* kMessageBodyBytes, INetConnection* kConn) : m_kMessageHead(kMessageHead),
-                                                                                                     m_kMessageBodyBytes(kMessageBodyBytes),
-                                                                                                     m_kConn(kConn) {
+    explicit NetMessage(MessageHead kMessageHead,
+                        char* pMessageBodyBytes,
+                        std::shared_ptr<INetConnection> pConn)
+        : m_kMessageHead(kMessageHead),
+          m_kMessageBodyBytes(pMessageBodyBytes),
+          m_kConn(pConn) {
+    }
+    virtual ~NetMessage() {
     }
 
+    MessageHead GetMessageHead() { return m_kMessageHead; }
+    std::string GetMessageBodyBytes() { return m_kMessageBodyBytes; }
+    std::shared_ptr<INetConnection> GetNetConnection() { return m_kConn; }
+
    private:
-    std::shared_ptr<MessageHead> m_kMessageHead;
+    MessageHead m_kMessageHead;
     std::string m_kMessageBodyBytes;
     std::shared_ptr<INetConnection> m_kConn;
 };
@@ -31,14 +40,21 @@ class NetMessageMgr {
     explicit NetMessageMgr();
     virtual ~NetMessageMgr();
 
-    void Add(NetMessage* kNetMessage);
-    void Add(MessageHead* kMessageHead, char* kMessageBodyBytes, INetConnection* kConn);
+    void AddRecvMessage(std::unique_ptr<NetMessage>& pNetMessage);
+    void AddRecvMessage(MessageHead kMessageHead, char* pMessageBodyBytes, std::shared_ptr<INetConnection> pConn);
 
-    std::deque<std::shared_ptr<NetMessage>> Swap();
-    std::deque<std::shared_ptr<NetMessage>> SwapTimeout(uint32_t iTimeoutMs);
+    void AddSendMessage(std::unique_ptr<NetMessage>& pNetMessage);
+    void AddSendMessage(MessageHead kMessageHead, char* pMessageBodyBytes, std::shared_ptr<INetConnection> pConn);
+
+    std::deque<std::unique_ptr<NetMessage>> GetRecvMessageDeque();
+    std::deque<std::unique_ptr<NetMessage>> GetRecvMessageDequeTimeout(uint32_t iTimeoutMs);
+
+    std::deque<std::unique_ptr<NetMessage>> GetSendMessageDeque();
+    std::deque<std::unique_ptr<NetMessage>> GetSendMessageDequeTimeout(uint32_t iTimeoutMs);
 
    private:
-    BlockQueue<NetMessage>* m_kNetMessageQueue;
+    BlockQueue<std::unique_ptr<NetMessage>> m_kNetRecvMessageDeque;
+    BlockQueue<std::unique_ptr<NetMessage>> m_kNetSendMessageDeque;
 };
 
 #endif  // NET_MANAGER_NETMESSAGEMGR_H

@@ -1,6 +1,7 @@
 #ifndef LOG_LOG_H
 #define LOG_LOG_H
 
+#include <libgen.h>
 #include <stdio.h>
 
 #include <string>
@@ -16,7 +17,7 @@ class Logger {
     template <typename... Args>
     inline void Format(const char* cLogLevel, Args... kArgs) {
         printf("[%s][game][%s][%s:%d][%s]\n",
-               TimeUtil.DateTime(),
+               TimeUtil.DateTime().c_str(),
                cLogLevel,
                __FILE__,
                __LINE__,
@@ -45,10 +46,10 @@ class Logger {
 };
 
 #define Log Singleton<Logger>::Instance()
-#define LogDebug(...) printf("[%s][game][Debug][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
-#define LogInfo(...) printf("[%s][game][Info][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
-#define LogWarn(...) printf("[%s][game][Warn][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
-#define LogError(...) printf("[%s][game][Error][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
-#define LogFatal(...) printf("[%s][game][Fatal][%s:%d][%s]\n", TimeUtil.DateTime(), __FILE__, __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
+#define LogDebug(...) printf("[%s][game][Debug][%s:%d][%s]\n", TimeUtil.DateTime().c_str(), basename(const_cast<char*>(__FILE__)), __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
+#define LogInfo(...) printf("[%s][game][Info][%s:%d][%s]\n", TimeUtil.DateTime().c_str(), basename(const_cast<char*>(__FILE__)), __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
+#define LogWarn(...) printf("[%s][game][Warn][%s:%d][%s]\n", TimeUtil.DateTime().c_str(), basename(const_cast<char*>(__FILE__)), __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
+#define LogError(...) printf("[%s][game][Error][%s:%d][%s]\n", TimeUtil.DateTime().c_str(), basename(const_cast<char*>(__FILE__)), __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
+#define LogFatal(...) printf("[%s][game][Fatal][%s:%d][%s]\n", TimeUtil.DateTime().c_str(), basename(const_cast<char*>(__FILE__)), __LINE__, Log.ArgsExpansion(__VA_ARGS__).c_str());
 
 #endif  // LOG_LOG_H

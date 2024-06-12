@@ -1,31 +1,53 @@
 #include "NetMessageMgr.h"
 
 NetMessageMgr::NetMessageMgr() {
-    m_kNetMessageQueue = new BlockQueue<NetMessage>();
 }
 
 NetMessageMgr::~NetMessageMgr() {
-    delete m_kNetMessageQueue;
 }
 
-void NetMessageMgr::Add(NetMessage* kNetMessage) {
-    m_kNetMessageQueue->PushBack(*kNetMessage);
+void NetMessageMgr::AddRecvMessage(std::unique_ptr<NetMessage>& pNetMessage) {
+    m_kNetRecvMessageDeque.PushBack(std::move(pNetMessage));
 }
 
-void NetMessageMgr::Add(MessageHead* kMessageHead, char* kMessageBodyBytes, INetConnection* kConn) {
-    m_kNetMessageQueue->PushBack(*(new NetMessage(kMessageHead, kMessageBodyBytes, kConn)));
+void NetMessageMgr::AddRecvMessage(MessageHead kMessageHead, char* pMessageBodyBytes, std::shared_ptr<INetConnection> pConn) {
+    std::unique_ptr<NetMessage> kNetMessage = std::make_unique<NetMessage>(kMessageHead, pMessageBodyBytes, pConn);
+    m_kNetRecvMessageDeque.PushBack(std::move(kNetMessage));
 }
 
-std::deque<std::shared_ptr<NetMessage>> NetMessageMgr::Swap() {
-    std::deque<std::shared_ptr<NetMessage>> kDeque;
-    kDeque.clear();
-    m_kNetMessageQueue->Swap(kDeque);
-    return kDeque;
+void NetMessageMgr::AddSendMessage(std::unique_ptr<NetMessage>& pNetMessage) {
+    m_kNetSendMessageDeque.PushBack(std::move(pNetMessage));
 }
 
-std::deque<std::shared_ptr<NetMessage>> NetMessageMgr::SwapTimeout(uint32_t iTimeoutMs) {
-    std::deque<std::shared_ptr<NetMessage>> kDeque;
-    kDeque.clear();
-    m_kNetMessageQueue->SwapTimeout(iTimeoutMs, kDeque);
-    return kDeque;
+void NetMessageMgr::AddSendMessage(MessageHead kMessageHead, char* pMessageBodyBytes, std::shared_ptr<INetConnection> pConn) {
+    std::unique_ptr<NetMessage> kNetMessage = std::make_unique<NetMessage>(kMessageHead, pMessageBodyBytes, pConn);
+    m_kNetSendMessageDeque.PushBack(std::move(kNetMessage));
+}
+
+std::deque<std::unique_ptr<NetMessage>> NetMessageMgr::GetRecvMessageDeque() {
+    std::deque<std::unique_ptr<NetMessage>> pMessageDeque;
+    pMessageDeque.clear();
+    m_kNetRecvMessageDeque.Swap(pMessageDeque);
+    return pMessageDeque;
+}
+
+std::deque<std::unique_ptr<NetMessage>> NetMessageMgr::GetRecvMessageDequeTimeout(uint32_t iTimeoutMs) {
+    std::deque<std::unique_ptr<NetMessage>> pMessageDeque;
+    pMessageDeque.clear();
+    m_kNetRecvMessageDeque.SwapTimeout(iTimeoutMs, pMessageDeque);
+    return pMessageDeque;
+}
+
+std::deque<std::unique_ptr<NetMessage>> NetMessageMgr::GetSendMessageDeque() {
+    std::deque<std::unique_ptr<NetMessage>> pMessageDeque;
+    pMessageDeque.clear();
+    m_kNetSendMessageDeque.Swap(pMessageDeque);
+    return pMessageDeque;
+}
+
+std::deque<std::unique_ptr<NetMessage>> NetMessageMgr::GetSendMessageDequeTimeout(uint32_t iTimeoutMs) {
+    std::deque<std::unique_ptr<NetMessage>> pMessageDeque;
+    pMessageDeque.clear();
+    m_kNetSendMessageDeque.SwapTimeout(iTimeoutMs, pMessageDeque);
+    return pMessageDeque;
 }

@@ -34,7 +34,7 @@ class Time {
         return static_cast<long long>(ts.tv_sec) * 1000000000 + ts.tv_nsec;
     }
 
-    char* DateTime() {
+    std::string DateTime() {
         auto now = std::chrono::system_clock::now();
         auto now_ms = std::chrono::time_point_cast<std::chrono::microseconds>(now);
         auto epoch = now_ms.time_since_epoch();
@@ -43,8 +43,8 @@ class Time {
 
         std::tm* currentTime = std::localtime(&current_time);
 
-        char* formattedDateTime = new char[25];  // Allocate memory for the formatted date and time
-        std::sprintf(formattedDateTime,
+        char pFormattedDateTime[27];
+        std::sprintf(pFormattedDateTime,
                      "%04d-%02d-%02d %02d:%02d:%02d:%06ld",
                      currentTime->tm_year + 1900,
                      currentTime->tm_mon + 1,
@@ -54,7 +54,7 @@ class Time {
                      currentTime->tm_sec,
                      ms);
 
-        return formattedDateTime;
+        return std::string(pFormattedDateTime);
     }
 };
 

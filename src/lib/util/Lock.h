@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include <iostream>
+#include <memory>
 
 class Locker {
    private:
@@ -32,17 +33,21 @@ class Locker {
 
 class AutoLock {
    public:
-    AutoLock(Locker* pLocker) {
+    AutoLock(std::shared_ptr<Locker> pLocker) {
         m_pLocker = pLocker;
-        if (m_pLocker) m_pLocker->lock();
+        if (m_pLocker) {
+            m_pLocker->lock();
+        }
     }
 
     ~AutoLock() {
-        if (m_pLocker) m_pLocker->unlock();
+        if (m_pLocker) {
+            m_pLocker->unlock();
+        }
     }
 
    private:
-    Locker* m_pLocker;
+    std::shared_ptr<Locker> m_pLocker;
 };
 
 #endif  //__LOCK_H

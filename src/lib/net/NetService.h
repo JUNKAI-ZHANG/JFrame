@@ -19,6 +19,7 @@ class NetService {
     explicit NetService();
     virtual ~NetService();
     NetError Working(int32_t iPort);
+    void SendMsg(std::unique_ptr<NetMessage>& pNetMessage);
 
    public:
     NetEpoll* GetNetEpoll() { return m_kNetEpoll; }
@@ -31,6 +32,7 @@ class NetService {
     virtual NetError HandleNewConnecionEvent();
     virtual NetError HandleConnMsgEvent(int32_t iConnFd);
     virtual NetError HandleReceivedMsg(int32_t iConnFd);
+    virtual NetError ProcessNetSendMessage();
 
    protected:
     NetError DoTick();

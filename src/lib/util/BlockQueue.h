@@ -10,7 +10,7 @@
 template <class T>
 class BlockQueue {
    public:
-    typedef std::deque<std::shared_ptr<T>> TQueue;
+    typedef std::deque<T> TQueue;
 
     // maxCapacity为-1，代表队列无最大限制
     explicit BlockQueue(const size_t iMaxCapacity = -1) : m_iMaxCapacity(iMaxCapacity) {
@@ -33,7 +33,7 @@ class BlockQueue {
         m_kNotEmpty.notify_all();
     }
 
-    void PushBack(const T& kT) {
+    void PushBack(T&& kT) {
         std::unique_lock<std::mutex> lock(m_kMutex);
         if (this->hasCapacity()) {
             while (m_kTQueue.size() >= m_iMaxCapacity) {
@@ -41,11 +41,11 @@ class BlockQueue {
             }
         }
 
-        m_kTQueue.push_back(std::make_shared<T>(kT));
+        m_kTQueue.push_back(std::move(kT));
         m_kNotEmpty.notify_all();
     }
 
-    void PushFront(const T& kT) {
+    void PushFront(T&& kT) {
         std::unique_lock<std::mutex> lock(m_kMutex);
         if (hasCapacity()) {
             while (m_kTQueue.size() >= m_iMaxCapacity) {
@@ -53,7 +53,7 @@ class BlockQueue {
             }
         }
 
-        m_kTQueue.push_front(std::make_shared<T>(kT));
+        m_kTQueue.push_front(std::move(kT));
         m_kNotEmpty.notify_all();
     }
 

@@ -11,43 +11,35 @@
 class ConnectionPool {
    public:
     explicit ConnectionPool() {
-        m_hmapConn = new std::unordered_map<uint32_t, std::shared_ptr<INetConnection>>();
     }
     virtual ~ConnectionPool() {
-        if (m_hmapConn != nullptr) {
-            delete m_hmapConn;
-            m_hmapConn = nullptr;
-        }
     }
 
-    void AddConnection(INetConnection* pConn) {
+    void AddConnection(std::shared_ptr<INetConnection>& pConn) {
+        m_hmapConn[pConn->GetSocketFd()] = pConn;
+    }
+
+    void RemoveConnection(std::shared_ptr<INetConnection>& pConn) {
         if (pConn == nullptr) {
             return;
         }
-        m_hmapConn->insert(std::make_pair(pConn->GetSocketFd(), std::make_shared<INetConnection>(*pConn)));
-    }
-
-    void RemoveConnection(INetConnection* pConn) {
-        if (pConn == nullptr) {
+        std::unordered_map<uint32_t, std::shared_ptr<INetConnection>>::iterator pConnIter = m_hmapConn.find(pConn->GetSocketFd());
+        if (pConnIter == m_hmapConn.end()) {
             return;
         }
-        std::unordered_map<uint32_t, std::shared_ptr<INetConnection>>::iterator pConnIter = m_hmapConn->find(pConn->GetSocketFd());
-        if (pConnIter == m_hmapConn->end()) {
-            return;
-        }
-        m_hmapConn->erase(pConn->GetSocketFd());
+        m_hmapConn.erase(pConn->GetSocketFd());
     }
 
-    INetConnection* GetConnection(uint32_t iSocketFd) {
-        std::unordered_map<uint32_t, std::shared_ptr<INetConnection>>::iterator pConnIter = m_hmapConn->find(iSocketFd);
-        if (pConnIter == m_hmapConn->end()) {
+    std::shared_ptr<INetConnection> GetConnection(uint32_t iSocketFd) {
+        std::unordered_map<uint32_t, std::shared_ptr<INetConnection>>::iterator pConnIter = m_hmapConn.find(iSocketFd);
+        if (pConnIter == m_hmapConn.end()) {
             return nullptr;
         }
-        return pConnIter->second.get();
+        return pConnIter->second;
     }
 
    private:
-    std::unordered_map<uint32_t, std::shared_ptr<INetConnection>>* m_hmapConn = nullptr;
+    std::unordered_map<uint32_t, std::shared_ptr<INetConnection>> m_hmapConn;
 };
 
 #endif  // NET_CONNECTION_CONNECTIONPOOL_H

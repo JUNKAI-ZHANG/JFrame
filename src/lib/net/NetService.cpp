@@ -24,13 +24,14 @@ NetService::~NetService() {
     delete m_kNetEpoll;
     delete m_kNetSocket;
     delete m_kConnPool;
+    delete m_kNetMessageMgr;
 }
 
 NetError NetService::CloseFd(int32_t iConnFd) {
     NetError eErr = NetError::NET_OK;
     if (iConnFd == m_kNetSocket->GetSocketFd()) {
     } else {
-        INetConnection* pConn = m_kConnPool->GetConnection(iConnFd);
+        std::shared_ptr<INetConnection> pConn = m_kConnPool->GetConnection(iConnFd);
         if (pConn == nullptr) {
             return NetError::NET_CONN_NOT_EXIST_ERR;
         }
@@ -123,6 +124,7 @@ NetError NetService::HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void*
 NetError NetService::DoTick() {
     // 控制频率
     // LogInfo("{module:NetService}", "Now time is :", TimeUtil.GetNowS());
+    this->ProcessNetSendMessage();
     return NetError::NET_OK;
 }
 
@@ -144,7 +146,7 @@ NetError NetService::HandleNewConnecionEvent() {
         return NetError::NET_CONN_POOL_NULLPTR_ERR;
     }
     // Todo : 添加进连接池
-    INetConnection* pConn = new INetConnection(pConnCtx);
+    std::shared_ptr<INetConnection> pConn = std::make_shared<INetConnection>(pConnCtx);
     m_kConnPool->AddConnection(pConn);
 
     LogInfo("{module:NetService}", "Accepted connection,", pConn->ToString());
@@ -159,7 +161,7 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
         return NetError::NET_CONN_POOL_NULLPTR_ERR;
     }
 
-    INetConnection* pConn = m_kConnPool->GetConnection(iConnFd);
+    std::shared_ptr<INetConnection> pConn = m_kConnPool->GetConnection(iConnFd);
     if (pConn == nullptr) {
         LogError("{module:NetService}", "Conn is nullptr");
         return NetError::NET_CONN_NOT_EXIST_ERR;
@@ -203,7 +205,7 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
 }
 
 NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
-    INetConnection* pConn = m_kConnPool->GetConnection(iConnFd);
+    std::shared_ptr<INetConnection> pConn = m_kConnPool->GetConnection(iConnFd);
     if (pConn == nullptr) {
         LogError("{module:NetService}", "Conn is nullptr");
         return NetError::NET_CONN_NOT_EXIST_ERR;
@@ -218,10 +220,11 @@ NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
 
     do {
         // Todo : 解析消息头
-        MessageHead* pMsgHead = nullptr;
+        MessageHead pMsgHead;
+        char* pMsgHeadBytes = nullptr;
         if (pConn->GetRecvBuffer()->GetCapacity() >= MESSAGE_HEAD_SIZE) {
-            pMsgHead = new MessageHead();
-            pMsgHead->DecodeMessageHeadBytes(pConn->GetRecvBuffer()->GetBuffer(MESSAGE_HEAD_SIZE));
+            pMsgHeadBytes = pConn->GetRecvBuffer()->GetBuffer(MESSAGE_HEAD_SIZE);
+            pMsgHead.DecodeMessageHeadBytes(pMsgHeadBytes);
         } else {
             break;
         }
@@ -230,10 +233,10 @@ NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
 
         // Todo : 解析消息体
         char* pMsgBodyBytes = nullptr;
-        if (pConn->GetRecvBuffer()->GetCapacity() >= pMsgHead->GetMsgLen()) {
+        if (pConn->GetRecvBuffer()->GetCapacity() >= pMsgHead.GetMsgLen()) {
             pConn->GetRecvBuffer()->PopBuffer(MESSAGE_HEAD_SIZE);
-            pMsgBodyBytes = pConn->GetRecvBuffer()->GetBuffer(pMsgHead->GetMsgLen() - MESSAGE_HEAD_SIZE);
-            pConn->GetRecvBuffer()->PopBuffer(pMsgHead->GetMsgLen() - MESSAGE_HEAD_SIZE);
+            pMsgBodyBytes = pConn->GetRecvBuffer()->GetBuffer(pMsgHead.GetMsgLen() - MESSAGE_HEAD_SIZE);
+            pConn->GetRecvBuffer()->PopBuffer(pMsgHead.GetMsgLen() - MESSAGE_HEAD_SIZE);
 
             bSuccDecodeOnePackage = true;
         } else {
@@ -245,21 +248,34 @@ NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
         kReq.ParseFromArray(pMsgBodyBytes, pMsgHead->GetMsgLen() - MESSAGE_HEAD_SIZE);
         LogInfo("Message : ", kReq.ShortDebugString());
         */
-        m_kNetMessageMgr->Add(pMsgHead, pMsgBodyBytes, pConn);
+        m_kNetMessageMgr->AddRecvMessage(pMsgHead, pMsgBodyBytes, pConn);
 
-        /*
-                // Todo : 释放消息头
-                if (pMsgHead != nullptr) {
-                    delete pMsgHead;
-                }
+        // Todo : 释放消息头字节流
+        if (pMsgHeadBytes != nullptr) {
+            delete pMsgHeadBytes;
+        }
 
-                // Todo : 释放消息体
-                if (pMsgBodyBytes != nullptr) {
-                    delete pMsgBodyBytes;
-                }
-        */
+        // Todo : 释放消息体字节流
+        if (pMsgBodyBytes != nullptr) {
+            delete pMsgBodyBytes;
+        }
     } while (bSuccDecodeOnePackage);
 
+    return NetError::NET_OK;
+}
+
+void NetService::SendMsg(std::unique_ptr<NetMessage>& pNetMessage) {
+    GetNetMessageMgr()->AddSendMessage(pNetMessage);
+    return;
+}
+
+NetError NetService::ProcessNetSendMessage() {
+    /*
+    std::deque<std::unique_ptr<NetMessage>> pSendMsgDeque = GetNetMessageMgr()->GetSendMessageDeque();
+    for (std::unique_ptr<NetMessage>& pNetMessage : pSendMsgDeque) {
+        pNetMessage->GetNetConnection()->SendMsg(pNetMessage->GetMessageHead(), 45);
+    }
+    */
     return NetError::NET_OK;
 }
 

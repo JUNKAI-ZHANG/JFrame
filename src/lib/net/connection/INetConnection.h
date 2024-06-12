@@ -7,6 +7,7 @@
 #include <string>
 
 #include "IConnectionContext.h"
+#include "google/protobuf/message_lite.h"
 #include "lib/util/RingBuffer.h"
 
 class INetConnection {
@@ -20,6 +21,7 @@ class INetConnection {
     }
 
     // 根据连接类型发送消息
+    virtual void SendMsg(google::protobuf::MessageLite* kMessage) {}
     virtual void SendMsg(const char* pMsg, uint32_t iLen) {}
     // 做释放逻辑
     virtual void Close() {}
