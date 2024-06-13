@@ -7,54 +7,54 @@
 #include <string>
 
 #include "IConnectionContext.h"
-#include "google/protobuf/message_lite.h"
+#include "google/protobuf/message.h"
+#include "lib/net/NetService.h"
+#include "lib/net/message/MessageHead.h"
 #include "lib/util/RingBuffer.h"
+#include "lib/util/Time.h"
+#include "proto/msg_id.pb.h"
 
 class INetConnection {
    public:
-    explicit INetConnection(IConnectionContext* kConnectionContext) {
-        m_kConnectionContext = kConnectionContext;
-        m_kRecvBuffer = new RingBuffer();
-    }
+    explicit INetConnection(std::unique_ptr<IConnectionContext>&& pConnectionContext);
+    virtual ~INetConnection();
 
-    virtual ~INetConnection() {
-    }
+    virtual void SendMsg(MsgId::MsgId eMsgId, google::protobuf::Message& kMessage);
+    virtual void SendMsg(const char* pMsg, uint32_t iLen);
+    virtual void Close();
 
-    // 根据连接类型发送消息
-    virtual void SendMsg(google::protobuf::MessageLite* kMessage) {}
-    virtual void SendMsg(const char* pMsg, uint32_t iLen) {}
-    // 做释放逻辑
-    virtual void Close() {}
+    uint64_t GetConnGuid();
+    uint32_t GetIp();
+    uint16_t GetPort();
+    int32_t GetSocketFd();
+    uint64_t GetConnMs();
+    std::shared_ptr<RingBuffer> GetRecvBuffer();
+    std::string GetIpStr();
+    virtual std::string ToString();
 
-    uint64_t GetConnGuid() { return (((uint64_t)GetIp()) << 16) | GetPort(); }
+   protected:
+    std::unique_ptr<IConnectionContext> m_pConnectionContext;
+    std::shared_ptr<RingBuffer> m_pRecvBuffer;
+};
 
-    uint32_t GetIp() { return m_kConnectionContext->GetIp(); }
-    uint16_t GetPort() { return m_kConnectionContext->GetPort(); }
-    int32_t GetSocketFd() { return m_kConnectionContext->GetSocketFd(); }
-    uint64_t GetConnMs() { return m_kConnectionContext->GetConnMs(); }
+class CSConnection : public INetConnection {
+   public:
+    CSConnection(std::unique_ptr<CSConnectionContext>&& kCSConnectionContext);
+    virtual ~CSConnection();
 
-    RingBuffer* GetRecvBuffer() { return m_kRecvBuffer; }
+    virtual void SendMsg(MsgId::MsgId eMsgId, google::protobuf::Message& kMessage) override;
+    virtual void SendMsg(const char* pMsg, uint32_t iLen) override;
+    virtual void Close() override;
+};
 
-    std::string GetIpStr() {
-        char pIpStr[16] = {0};
-        snprintf(pIpStr, sizeof(pIpStr), "%d.%d.%d.%d",
-                 (GetIp() & 0xFF000000) >> 24,
-                 (GetIp() & 0x00FF0000) >> 16,
-                 (GetIp() & 0x0000FF00) >> 8,
-                 (GetIp() & 0x000000FF));
-        return std::string(pIpStr);
-    }
+class SSConnection : public INetConnection {
+   public:
+    SSConnection(std::unique_ptr<SSConnectionContext>&& kSSConnectionContext);
+    virtual ~SSConnection();
 
-    virtual std::string ToString() {
-        char pStr[128] = {0};
-        snprintf(pStr, sizeof(pStr), "ip:%s port:%d socket_fd:%d conn_ms:%lu", GetIpStr().c_str(), GetPort(), GetSocketFd(), GetConnMs());
-        return std::string(pStr);
-    }
-
-   private:
-    IConnectionContext* m_kConnectionContext = nullptr;
-
-    RingBuffer* m_kRecvBuffer = nullptr;
+    virtual void SendMsg(MsgId::MsgId eMsgId, google::protobuf::Message& kMessage) override;
+    virtual void SendMsg(const char* pMsg, uint32_t iLen);
+    virtual void Close();
 };
 
 #endif  // NET_CONNECTION_INETCONNECTION_H

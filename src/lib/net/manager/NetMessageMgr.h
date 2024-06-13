@@ -7,6 +7,7 @@
 #include "lib/net/message/MessageHead.h"
 #include "lib/util/BlockQueue.h"
 
+class INetConnection;
 class NetMessageMgr;
 
 class NetMessage {

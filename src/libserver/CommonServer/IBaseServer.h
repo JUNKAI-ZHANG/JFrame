@@ -4,30 +4,33 @@
 #include "CreateServerContext.h"
 #include "lib/log/log.h"
 #include "lib/net/NetService.h"
+#include "lib/net/define/NetDefine.h"
 #include "lib/net/define/err.h"
 
 class IBaseServer {
    public:
     explicit IBaseServer(CreateServerContext* kCreateServerContext)
         : m_kCreateServerContext(kCreateServerContext) {
-        m_kNetService = new NetService();
     }
     virtual ~IBaseServer() {
-        delete m_kNetService;
+    }
+    virtual std::string GetServerModule() {
+        return "{module:IBaseServer}";
+    }
+    virtual ServiceType GetServiceType() {
+        return ServiceType::None_Type;
     }
 
     virtual void LaunchServer() = 0;
+    virtual void OnAfterLaunchServer() = 0;
+    virtual void ProcessNetRecvMessage() = 0;
+    virtual void SendMsgToConn(std::shared_ptr<INetConnection> pNetConnection, MsgId::MsgId eMsgId, ::google::protobuf::Message& kMessage) = 0;
 
    protected:
     CreateServerContext* GetCreateServerContext() { return m_kCreateServerContext; }
-    NetService* GetNetService() { return m_kNetService; }
-
-    virtual void ProcessNetRecvMessage() = 0;
 
    private:
     CreateServerContext* m_kCreateServerContext;
-
-    NetService* m_kNetService;
 };
 
 #endif  // SERVER_COMMONSERVER_IBASESERVER_H_

@@ -131,9 +131,9 @@ NetError NetService::DoTick() {
 NetError NetService::HandleNewConnecionEvent() {
     NetError eErr = NetError::NET_OK;
     int32_t iConnFd = 0;
-    IConnectionContext* pConnCtx = nullptr;
+    std::unique_ptr<IConnectionContext> pConnCtx = std::make_unique<IConnectionContext>();
 
-    if ((eErr = m_kNetSocket->Accept(iConnFd, pConnCtx)) != NetError::NET_OK) {
+    if ((eErr = m_kNetSocket->Accept(iConnFd, *pConnCtx)) != NetError::NET_OK) {
         return eErr;
     }
 
@@ -146,15 +146,16 @@ NetError NetService::HandleNewConnecionEvent() {
         return NetError::NET_CONN_POOL_NULLPTR_ERR;
     }
     // Todo : 添加进连接池
-    std::shared_ptr<INetConnection> pConn = std::make_shared<INetConnection>(pConnCtx);
+    std::shared_ptr<INetConnection> pConn = std::make_shared<INetConnection>(std::move(pConnCtx));
     m_kConnPool->AddConnection(pConn);
 
-    LogInfo("{module:NetService}", "Accepted connection,", pConn->ToString());
+    LogInfo("{module:NetService}", "Accepted connection");
 
     return eErr;
 }
 
 NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
+    LogInfo("recv message");
     NetError eErr = NetError::NET_OK;
     if (m_kConnPool == nullptr) {
         LogError("{module:NetService}", "ConnPool is nullptr");
@@ -198,7 +199,7 @@ NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
         LogInfo("{module:NetService}", "Closed connection,", pConn->ToString());
         // 先将fd从epoll删除，再关闭fd
         m_kNetEpoll->EpollDel(iConnFd);
-        m_kConnPool->RemoveConnection(pConn);
+        m_kConnPool->RemoveConnection(std::move(pConn));
         CloseFd(iConnFd);
     }
     return eErr;
@@ -264,7 +265,7 @@ NetError NetService::HandleReceivedMsg(int32_t iConnFd) {
     return NetError::NET_OK;
 }
 
-void NetService::SendMsg(std::unique_ptr<NetMessage>& pNetMessage) {
+void NetService::SendMsg(std::unique_ptr<NetMessage> pNetMessage) {
     GetNetMessageMgr()->AddSendMessage(pNetMessage);
     return;
 }

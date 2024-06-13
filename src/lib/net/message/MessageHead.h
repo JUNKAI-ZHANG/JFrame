@@ -46,35 +46,35 @@ class MessageHead {
     virtual ~MessageHead() {
     }
 
-    std::unique_ptr<char[]> EncodeMessageHeadBytes() {
-        std::unique_ptr<char[]> pHeadBytes(new char[MESSAGE_HEAD_SIZE]);
-        memset(pHeadBytes.get(), 0, MESSAGE_HEAD_SIZE);
+    std::string EncodeMessageHeadBytes() {
+        char pHeadBytes[MESSAGE_HEAD_SIZE];
+        memset(pHeadBytes, 0, sizeof(char));
 
-        uint64_t* pPlayerGuid = reinterpret_cast<uint64_t*>(pHeadBytes.get());
+        uint64_t* pPlayerGuid = reinterpret_cast<uint64_t*>(pHeadBytes);
         *pPlayerGuid = m_iPlayerUid;
 
-        uint32_t* pAreaId = reinterpret_cast<uint32_t*>(pHeadBytes.get() + 8);
+        uint32_t* pAreaId = reinterpret_cast<uint32_t*>(pHeadBytes + 8);
         *pAreaId = m_iAreaId;
 
-        uint32_t* pMsgId = reinterpret_cast<uint32_t*>(pHeadBytes.get() + 12);
+        uint32_t* pMsgId = reinterpret_cast<uint32_t*>(pHeadBytes + 12);
         *pMsgId = m_iMsgId;
 
-        uint32_t* pMsgLen = reinterpret_cast<uint32_t*>(pHeadBytes.get() + 16);
+        uint32_t* pMsgLen = reinterpret_cast<uint32_t*>(pHeadBytes + 16);
         *pMsgLen = m_iMsgLen;
 
-        uint16_t* pMsgSrc = reinterpret_cast<uint16_t*>(pHeadBytes.get() + 20);
+        uint16_t* pMsgSrc = reinterpret_cast<uint16_t*>(pHeadBytes + 20);
         *pMsgSrc = m_iMsgSrc;
 
-        uint16_t* pMsgDst = reinterpret_cast<uint16_t*>(pHeadBytes.get() + 22);
+        uint16_t* pMsgDst = reinterpret_cast<uint16_t*>(pHeadBytes + 22);
         *pMsgDst = m_iMsgDst;
 
-        uint32_t* pMsgSeq = reinterpret_cast<uint32_t*>(pHeadBytes.get() + 24);
+        uint32_t* pMsgSeq = reinterpret_cast<uint32_t*>(pHeadBytes + 24);
         *pMsgSeq = m_iMsgSeq;
 
-        uint32_t* pMsgTime = reinterpret_cast<uint32_t*>(pHeadBytes.get() + 28);
+        uint32_t* pMsgTime = reinterpret_cast<uint32_t*>(pHeadBytes + 28);
         *pMsgTime = m_iMsgTime;
 
-        return pHeadBytes;
+        return std::string(pHeadBytes, MESSAGE_HEAD_SIZE);
     }
 
     void DecodeMessageHeadBytes(char* pHeadBytes) {
@@ -90,10 +90,10 @@ class MessageHead {
         uint32_t* pMsgLen = reinterpret_cast<uint32_t*>(pHeadBytes + 16);
         m_iMsgLen = *pMsgLen;
 
-        uint16_t* pMsgSrc = reinterpret_cast<uint16_t*>(pHeadBytes + 22);
+        uint16_t* pMsgSrc = reinterpret_cast<uint16_t*>(pHeadBytes + 20);
         m_iMsgSrc = *pMsgSrc;
 
-        uint16_t* pMsgDst = reinterpret_cast<uint16_t*>(pHeadBytes + 20);
+        uint16_t* pMsgDst = reinterpret_cast<uint16_t*>(pHeadBytes + 22);
         m_iMsgDst = *pMsgDst;
 
         uint32_t* pMsgSeq = reinterpret_cast<uint32_t*>(pHeadBytes + 24);

@@ -65,7 +65,7 @@ class NetSocket {
         return NetError::NET_OK;
     }
 
-    NetError Accept(int32_t& iAcceptFd, IConnectionContext*& pConnCtx) {
+    NetError Accept(int32_t& iAcceptFd, IConnectionContext& pConnCtx) {
         struct sockaddr_in kAddr;
         socklen_t addrlen = sizeof(kAddr);
 
@@ -73,18 +73,56 @@ class NetSocket {
             LogError("{module:NetSocket}", "Failed to accept connection");
             return NetError::NET_SOCKET_ACCEPT_ERR;
         }
-        // LogInfo("{module:NetSocket}", "Accepted connection,", this->toString(kAddr));
+        LogInfo("{module:NetSocket}", "Accepted connection", this->toString(kAddr));
 
-        pConnCtx = new IConnectionContext(ntohl(kAddr.sin_addr.s_addr), ntohs(kAddr.sin_port), iAcceptFd, TimeUtil.GetNowMs());
+        // 构造临时连接上下文，接收到首包的时候建立真正的连接
+        pConnCtx.m_iIp = ntohl(kAddr.sin_addr.s_addr);
+        pConnCtx.m_iPort = ntohs(kAddr.sin_port);
+        pConnCtx.m_iSocketFd = iAcceptFd;
+        pConnCtx.m_lConnMs = TimeUtil.GetNowMs();
 
         return NetError::NET_OK;
     }
 
+    NetError Connect(const std::string& ipAddress, uint16_t port, int32_t& iSocketConnFd) {
+        // 创建 socket
+        iSocketConnFd = socket(AF_INET, SOCK_STREAM, 0);
+        if (iSocketConnFd == -1) {
+            LogError("{module:NetSocket}", "Error creating socket");
+            return NetError::NET_SOCKET_CREATE_ERR;
+        }
+
+        struct sockaddr_in serverAddr;
+        serverAddr.sin_family = AF_INET;
+        serverAddr.sin_port = htons(port);
+
+        // 将 IP 地址从字符串转换为网络字节序
+        if (inet_pton(AF_INET, ipAddress.c_str(), &serverAddr.sin_addr) <= 0) {
+            LogError("{module:NetSocket}", "Invalid IP address");
+            return NetError::NET_SOCKET_INVALID_IP_ERR;
+        }
+
+        // 连接服务器
+        if (connect(iSocketConnFd, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
+            LogError("{module:NetSocket}", "Connection failed");
+            return NetError::NET_SOCKET_CONNECT_ERR;
+        }
+
+        // LogInfo("{module:NetSocket}", "Connected to server");
+        return NetError::NET_OK;
+    }
+
+    NetError SendMsg(int32_t iConnFd, const char* pMsg, uint32_t iLen) {
+        // 发送数据
+        int32_t bytesSent = send(iConnFd, pMsg, iLen, 0);
+        if (bytesSent == -1) {
+            LogError("{module:NetSocket}", "Message send failed");
+            return NetError::NET_SOCKET_SEND_ERR;
+        }
+        return NetError::NET_OK;
+    }
+
     /*
-    virtual int32_t Connect(uint32_t iIp, uint16_t iPort) = 0;
-
-    virtual int32_t SendMsg(const char* pMsg, uint32_t iLen) = 0;
-
     virtual int32_t RecvMsg(char* pMsg, uint32_t iLen) = 0;
     */
 

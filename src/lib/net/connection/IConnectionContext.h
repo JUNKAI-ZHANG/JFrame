@@ -3,9 +3,11 @@
 
 #include <stdint.h>
 
+#include "lib/net/define/NetDefine.h"
+
 class IConnectionContext {
    public:
-    explicit IConnectionContext(uint32_t iIp, uint16_t iPort, int32_t iSocketFd, uint64_t lConnMs) : m_iIp(iIp), m_iPort(iPort), m_iSocketFd(iSocketFd), m_lConnMs(lConnMs) {
+    explicit IConnectionContext() {
     }
     virtual ~IConnectionContext() {}
 
@@ -14,11 +16,23 @@ class IConnectionContext {
     int32_t GetSocketFd() { return m_iSocketFd; }
     uint64_t GetConnMs() { return m_lConnMs; }
 
-   private:
+   public:
     uint32_t m_iIp;
     uint16_t m_iPort;
     int32_t m_iSocketFd;
     uint64_t m_lConnMs;
+
+    ServiceType m_eLocalType;
+    ServiceType m_ePeerType;
+};
+
+class CSConnectionContext : public IConnectionContext {
+   public:
+    uint64_t m_lPlayerUid;
+    uint32_t m_iAreaId;
+};
+
+class SSConnectionContext : public IConnectionContext {
 };
 
 #endif  // NET_CONNECTION_ICONNECTIONCONTEXT_H

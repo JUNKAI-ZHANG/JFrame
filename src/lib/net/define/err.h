@@ -9,11 +9,14 @@ enum NetError {
     NET_EPOLL_NULLPTR_ERR = 13,      // epoll is nullptr
     NET_CONN_POOL_NULLPTR_ERR = 14,  // connection pool is nullptr
 
-    NET_SOCKET_CREATE_ERR = 42,   // socket create error
-    NET_SOCKET_SET_OPT_ERR = 43,  // socket set opt error
-    NET_SOCKET_BIND_ERR = 44,     // socket bind error
-    NET_SOCKET_LISTEN_ERR = 45,   // socket listen error
-    NET_SOCKET_ACCEPT_ERR = 46,   // socket accept error
+    NET_SOCKET_CREATE_ERR = 42,      // socket create error
+    NET_SOCKET_SET_OPT_ERR = 43,     // socket set opt error
+    NET_SOCKET_BIND_ERR = 44,        // socket bind error
+    NET_SOCKET_LISTEN_ERR = 45,      // socket listen error
+    NET_SOCKET_ACCEPT_ERR = 46,      // socket accept error
+    NET_SOCKET_INVALID_IP_ERR = 47,  // socket ip error
+    NET_SOCKET_CONNECT_ERR = 48,     // socket connect error
+    NET_SOCKET_SEND_ERR = 49,        // socket send error
 
     NET_EPOLL_CREATE_ERR = 61,  // epoll create error
     NET_EPOLL_ADD_FD_ERR = 62,  // epoll add fd error

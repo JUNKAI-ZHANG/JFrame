@@ -59,8 +59,9 @@ namespace MsgId {
 
 enum MsgId : int {
   MSG_ID_NONE = 0,
-  MSG_ID_PLAYER_LOGIN_REQ = 1,
-  MSG_ID_PLAYER_LOGIN_RSP = 2,
+  MSG_ID_SERVER_FIRST_PACKAGE = 1,
+  MSG_ID_PLAYER_LOGIN_REQ = 10001,
+  MSG_ID_PLAYER_LOGIN_RSP = 10002,
   MsgId_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   MsgId_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };

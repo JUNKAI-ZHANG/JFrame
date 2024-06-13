@@ -31,7 +31,6 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
@@ -48,7 +47,7 @@ struct TableStruct_msg_5fss_5fcommon_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -56,169 +55,34 @@ struct TableStruct_msg_5fss_5fcommon_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msg_5fss_5fcommon_2eproto;
 namespace SSMessage {
-class GetRegionInfoRequest;
-class GetRegionInfoRequestDefaultTypeInternal;
-extern GetRegionInfoRequestDefaultTypeInternal _GetRegionInfoRequest_default_instance_;
-class GetRegionInfoResponse;
-class GetRegionInfoResponseDefaultTypeInternal;
-extern GetRegionInfoResponseDefaultTypeInternal _GetRegionInfoResponse_default_instance_;
-class JoinRegionRequest;
-class JoinRegionRequestDefaultTypeInternal;
-extern JoinRegionRequestDefaultTypeInternal _JoinRegionRequest_default_instance_;
-class JoinRegionResponse;
-class JoinRegionResponseDefaultTypeInternal;
-extern JoinRegionResponseDefaultTypeInternal _JoinRegionResponse_default_instance_;
-class RegionInfo;
-class RegionInfoDefaultTypeInternal;
-extern RegionInfoDefaultTypeInternal _RegionInfo_default_instance_;
-class ServerConnChange;
-class ServerConnChangeDefaultTypeInternal;
-extern ServerConnChangeDefaultTypeInternal _ServerConnChange_default_instance_;
-class ServerInfo;
-class ServerInfoDefaultTypeInternal;
-extern ServerInfoDefaultTypeInternal _ServerInfo_default_instance_;
-class UserInfo;
-class UserInfoDefaultTypeInternal;
-extern UserInfoDefaultTypeInternal _UserInfo_default_instance_;
+class ServerFirstPackage;
+class ServerFirstPackageDefaultTypeInternal;
+extern ServerFirstPackageDefaultTypeInternal _ServerFirstPackage_default_instance_;
 }  // namespace SSMessage
 PROTOBUF_NAMESPACE_OPEN
-template<> ::SSMessage::GetRegionInfoRequest* Arena::CreateMaybeMessage<::SSMessage::GetRegionInfoRequest>(Arena*);
-template<> ::SSMessage::GetRegionInfoResponse* Arena::CreateMaybeMessage<::SSMessage::GetRegionInfoResponse>(Arena*);
-template<> ::SSMessage::JoinRegionRequest* Arena::CreateMaybeMessage<::SSMessage::JoinRegionRequest>(Arena*);
-template<> ::SSMessage::JoinRegionResponse* Arena::CreateMaybeMessage<::SSMessage::JoinRegionResponse>(Arena*);
-template<> ::SSMessage::RegionInfo* Arena::CreateMaybeMessage<::SSMessage::RegionInfo>(Arena*);
-template<> ::SSMessage::ServerConnChange* Arena::CreateMaybeMessage<::SSMessage::ServerConnChange>(Arena*);
-template<> ::SSMessage::ServerInfo* Arena::CreateMaybeMessage<::SSMessage::ServerInfo>(Arena*);
-template<> ::SSMessage::UserInfo* Arena::CreateMaybeMessage<::SSMessage::UserInfo>(Arena*);
+template<> ::SSMessage::ServerFirstPackage* Arena::CreateMaybeMessage<::SSMessage::ServerFirstPackage>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace SSMessage {
 
-enum ServerInfo_Operation : int {
-  ServerInfo_Operation_Register = 0,
-  ServerInfo_Operation_RequstAssgin = 1,
-  ServerInfo_Operation_Connect = 2,
-  ServerInfo_Operation_ServerInfo_Operation_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  ServerInfo_Operation_ServerInfo_Operation_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool ServerInfo_Operation_IsValid(int value);
-constexpr ServerInfo_Operation ServerInfo_Operation_Operation_MIN = ServerInfo_Operation_Register;
-constexpr ServerInfo_Operation ServerInfo_Operation_Operation_MAX = ServerInfo_Operation_Connect;
-constexpr int ServerInfo_Operation_Operation_ARRAYSIZE = ServerInfo_Operation_Operation_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ServerInfo_Operation_descriptor();
-template<typename T>
-inline const std::string& ServerInfo_Operation_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, ServerInfo_Operation>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function ServerInfo_Operation_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    ServerInfo_Operation_descriptor(), enum_t_value);
-}
-inline bool ServerInfo_Operation_Parse(
-    const std::string& name, ServerInfo_Operation* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ServerInfo_Operation>(
-    ServerInfo_Operation_descriptor(), name, value);
-}
-enum UserInfo_Operation : int {
-  UserInfo_Operation_Register = 0,
-  UserInfo_Operation_Logout = 1,
-  UserInfo_Operation_UserInfo_Operation_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  UserInfo_Operation_UserInfo_Operation_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool UserInfo_Operation_IsValid(int value);
-constexpr UserInfo_Operation UserInfo_Operation_Operation_MIN = UserInfo_Operation_Register;
-constexpr UserInfo_Operation UserInfo_Operation_Operation_MAX = UserInfo_Operation_Logout;
-constexpr int UserInfo_Operation_Operation_ARRAYSIZE = UserInfo_Operation_Operation_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* UserInfo_Operation_descriptor();
-template<typename T>
-inline const std::string& UserInfo_Operation_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, UserInfo_Operation>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function UserInfo_Operation_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    UserInfo_Operation_descriptor(), enum_t_value);
-}
-inline bool UserInfo_Operation_Parse(
-    const std::string& name, UserInfo_Operation* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<UserInfo_Operation>(
-    UserInfo_Operation_descriptor(), name, value);
-}
-enum SERVER_TYPE : int {
-  NONE = 0,
-  CENTER = 1,
-  GATE = 2,
-  LOGIC = 3,
-  DATABASE = 4,
-  MATCH = 5,
-  SERVER_TYPE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  SERVER_TYPE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool SERVER_TYPE_IsValid(int value);
-constexpr SERVER_TYPE SERVER_TYPE_MIN = NONE;
-constexpr SERVER_TYPE SERVER_TYPE_MAX = MATCH;
-constexpr int SERVER_TYPE_ARRAYSIZE = SERVER_TYPE_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SERVER_TYPE_descriptor();
-template<typename T>
-inline const std::string& SERVER_TYPE_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, SERVER_TYPE>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function SERVER_TYPE_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    SERVER_TYPE_descriptor(), enum_t_value);
-}
-inline bool SERVER_TYPE_Parse(
-    const std::string& name, SERVER_TYPE* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SERVER_TYPE>(
-    SERVER_TYPE_descriptor(), name, value);
-}
-enum SERVER_FREE_LEVEL : int {
-  FREE = 0,
-  COMMON = 1,
-  BUSY = 2,
-  DOWN = 3,
-  SERVER_FREE_LEVEL_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  SERVER_FREE_LEVEL_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool SERVER_FREE_LEVEL_IsValid(int value);
-constexpr SERVER_FREE_LEVEL SERVER_FREE_LEVEL_MIN = FREE;
-constexpr SERVER_FREE_LEVEL SERVER_FREE_LEVEL_MAX = DOWN;
-constexpr int SERVER_FREE_LEVEL_ARRAYSIZE = SERVER_FREE_LEVEL_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SERVER_FREE_LEVEL_descriptor();
-template<typename T>
-inline const std::string& SERVER_FREE_LEVEL_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, SERVER_FREE_LEVEL>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function SERVER_FREE_LEVEL_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    SERVER_FREE_LEVEL_descriptor(), enum_t_value);
-}
-inline bool SERVER_FREE_LEVEL_Parse(
-    const std::string& name, SERVER_FREE_LEVEL* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SERVER_FREE_LEVEL>(
-    SERVER_FREE_LEVEL_descriptor(), name, value);
-}
 // ===================================================================
 
-class ServerInfo :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SSMessage.ServerInfo) */ {
+class ServerFirstPackage :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SSMessage.ServerFirstPackage) */ {
  public:
-  ServerInfo();
-  virtual ~ServerInfo();
+  ServerFirstPackage();
+  virtual ~ServerFirstPackage();
 
-  ServerInfo(const ServerInfo& from);
-  ServerInfo(ServerInfo&& from) noexcept
-    : ServerInfo() {
+  ServerFirstPackage(const ServerFirstPackage& from);
+  ServerFirstPackage(ServerFirstPackage&& from) noexcept
+    : ServerFirstPackage() {
     *this = ::std::move(from);
   }
 
-  inline ServerInfo& operator=(const ServerInfo& from) {
+  inline ServerFirstPackage& operator=(const ServerFirstPackage& from) {
     CopyFrom(from);
     return *this;
   }
-  inline ServerInfo& operator=(ServerInfo&& from) noexcept {
+  inline ServerFirstPackage& operator=(ServerFirstPackage&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -236,37 +100,37 @@ class ServerInfo :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const ServerInfo& default_instance();
+  static const ServerFirstPackage& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ServerInfo* internal_default_instance() {
-    return reinterpret_cast<const ServerInfo*>(
-               &_ServerInfo_default_instance_);
+  static inline const ServerFirstPackage* internal_default_instance() {
+    return reinterpret_cast<const ServerFirstPackage*>(
+               &_ServerFirstPackage_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(ServerInfo& a, ServerInfo& b) {
+  friend void swap(ServerFirstPackage& a, ServerFirstPackage& b) {
     a.Swap(&b);
   }
-  inline void Swap(ServerInfo* other) {
+  inline void Swap(ServerFirstPackage* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ServerInfo* New() const final {
-    return CreateMaybeMessage<ServerInfo>(nullptr);
+  inline ServerFirstPackage* New() const final {
+    return CreateMaybeMessage<ServerFirstPackage>(nullptr);
   }
 
-  ServerInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<ServerInfo>(arena);
+  ServerFirstPackage* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ServerFirstPackage>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const ServerInfo& from);
-  void MergeFrom(const ServerInfo& from);
+  void CopyFrom(const ServerFirstPackage& from);
+  void MergeFrom(const ServerFirstPackage& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -280,239 +144,10 @@ class ServerInfo :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ServerInfo* other);
+  void InternalSwap(ServerFirstPackage* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SSMessage.ServerInfo";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_5fss_5fcommon_2eproto);
-    return ::descriptor_table_msg_5fss_5fcommon_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  typedef ServerInfo_Operation Operation;
-  static constexpr Operation Register =
-    ServerInfo_Operation_Register;
-  static constexpr Operation RequstAssgin =
-    ServerInfo_Operation_RequstAssgin;
-  static constexpr Operation Connect =
-    ServerInfo_Operation_Connect;
-  static inline bool Operation_IsValid(int value) {
-    return ServerInfo_Operation_IsValid(value);
-  }
-  static constexpr Operation Operation_MIN =
-    ServerInfo_Operation_Operation_MIN;
-  static constexpr Operation Operation_MAX =
-    ServerInfo_Operation_Operation_MAX;
-  static constexpr int Operation_ARRAYSIZE =
-    ServerInfo_Operation_Operation_ARRAYSIZE;
-  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
-  Operation_descriptor() {
-    return ServerInfo_Operation_descriptor();
-  }
-  template<typename T>
-  static inline const std::string& Operation_Name(T enum_t_value) {
-    static_assert(::std::is_same<T, Operation>::value ||
-      ::std::is_integral<T>::value,
-      "Incorrect type passed to function Operation_Name.");
-    return ServerInfo_Operation_Name(enum_t_value);
-  }
-  static inline bool Operation_Parse(const std::string& name,
-      Operation* value) {
-    return ServerInfo_Operation_Parse(name, value);
-  }
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kIpFieldNumber = 1,
-    kServerNameFieldNumber = 6,
-    kPortFieldNumber = 2,
-    kServerFreeLevelFieldNumber = 3,
-    kServerTypeFieldNumber = 4,
-    kOptFieldNumber = 5,
-  };
-  // string ip = 1;
-  void clear_ip();
-  const std::string& ip() const;
-  void set_ip(const std::string& value);
-  void set_ip(std::string&& value);
-  void set_ip(const char* value);
-  void set_ip(const char* value, size_t size);
-  std::string* mutable_ip();
-  std::string* release_ip();
-  void set_allocated_ip(std::string* ip);
-  private:
-  const std::string& _internal_ip() const;
-  void _internal_set_ip(const std::string& value);
-  std::string* _internal_mutable_ip();
-  public:
-
-  // string server_name = 6;
-  void clear_server_name();
-  const std::string& server_name() const;
-  void set_server_name(const std::string& value);
-  void set_server_name(std::string&& value);
-  void set_server_name(const char* value);
-  void set_server_name(const char* value, size_t size);
-  std::string* mutable_server_name();
-  std::string* release_server_name();
-  void set_allocated_server_name(std::string* server_name);
-  private:
-  const std::string& _internal_server_name() const;
-  void _internal_set_server_name(const std::string& value);
-  std::string* _internal_mutable_server_name();
-  public:
-
-  // int32 port = 2;
-  void clear_port();
-  ::PROTOBUF_NAMESPACE_ID::int32 port() const;
-  void set_port(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_port() const;
-  void _internal_set_port(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 server_free_level = 3;
-  void clear_server_free_level();
-  ::PROTOBUF_NAMESPACE_ID::int32 server_free_level() const;
-  void set_server_free_level(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_server_free_level() const;
-  void _internal_set_server_free_level(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 server_type = 4;
-  void clear_server_type();
-  ::PROTOBUF_NAMESPACE_ID::int32 server_type() const;
-  void set_server_type(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_server_type() const;
-  void _internal_set_server_type(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // .SSMessage.ServerInfo.Operation opt = 5;
-  void clear_opt();
-  ::SSMessage::ServerInfo_Operation opt() const;
-  void set_opt(::SSMessage::ServerInfo_Operation value);
-  private:
-  ::SSMessage::ServerInfo_Operation _internal_opt() const;
-  void _internal_set_opt(::SSMessage::ServerInfo_Operation value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:SSMessage.ServerInfo)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr server_name_;
-  ::PROTOBUF_NAMESPACE_ID::int32 port_;
-  ::PROTOBUF_NAMESPACE_ID::int32 server_free_level_;
-  ::PROTOBUF_NAMESPACE_ID::int32 server_type_;
-  int opt_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_msg_5fss_5fcommon_2eproto;
-};
-// -------------------------------------------------------------------
-
-class ServerConnChange :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SSMessage.ServerConnChange) */ {
- public:
-  ServerConnChange();
-  virtual ~ServerConnChange();
-
-  ServerConnChange(const ServerConnChange& from);
-  ServerConnChange(ServerConnChange&& from) noexcept
-    : ServerConnChange() {
-    *this = ::std::move(from);
-  }
-
-  inline ServerConnChange& operator=(const ServerConnChange& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ServerConnChange& operator=(ServerConnChange&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const ServerConnChange& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ServerConnChange* internal_default_instance() {
-    return reinterpret_cast<const ServerConnChange*>(
-               &_ServerConnChange_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(ServerConnChange& a, ServerConnChange& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(ServerConnChange* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline ServerConnChange* New() const final {
-    return CreateMaybeMessage<ServerConnChange>(nullptr);
-  }
-
-  ServerConnChange* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<ServerConnChange>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const ServerConnChange& from);
-  void MergeFrom(const ServerConnChange& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(ServerConnChange* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SSMessage.ServerConnChange";
+    return "SSMessage.ServerFirstPackage";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -537,948 +172,41 @@ class ServerConnChange :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kIpFieldNumber = 1,
-    kPortFieldNumber = 2,
-    kChangeFieldNumber = 3,
-    kTypeFieldNumber = 4,
+    kExternalIpFieldNumber = 1,
+    kExternalPortFieldNumber = 2,
   };
-  // string ip = 1;
-  void clear_ip();
-  const std::string& ip() const;
-  void set_ip(const std::string& value);
-  void set_ip(std::string&& value);
-  void set_ip(const char* value);
-  void set_ip(const char* value, size_t size);
-  std::string* mutable_ip();
-  std::string* release_ip();
-  void set_allocated_ip(std::string* ip);
+  // bytes external_ip = 1;
+  void clear_external_ip();
+  const std::string& external_ip() const;
+  void set_external_ip(const std::string& value);
+  void set_external_ip(std::string&& value);
+  void set_external_ip(const char* value);
+  void set_external_ip(const void* value, size_t size);
+  std::string* mutable_external_ip();
+  std::string* release_external_ip();
+  void set_allocated_external_ip(std::string* external_ip);
   private:
-  const std::string& _internal_ip() const;
-  void _internal_set_ip(const std::string& value);
-  std::string* _internal_mutable_ip();
+  const std::string& _internal_external_ip() const;
+  void _internal_set_external_ip(const std::string& value);
+  std::string* _internal_mutable_external_ip();
   public:
 
-  // int32 port = 2;
-  void clear_port();
-  ::PROTOBUF_NAMESPACE_ID::int32 port() const;
-  void set_port(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // int32 external_port = 2;
+  void clear_external_port();
+  ::PROTOBUF_NAMESPACE_ID::int32 external_port() const;
+  void set_external_port(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_port() const;
-  void _internal_set_port(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_external_port() const;
+  void _internal_set_external_port(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 change = 3;
-  void clear_change();
-  ::PROTOBUF_NAMESPACE_ID::int32 change() const;
-  void set_change(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_change() const;
-  void _internal_set_change(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // .SSMessage.SERVER_TYPE type = 4;
-  void clear_type();
-  ::SSMessage::SERVER_TYPE type() const;
-  void set_type(::SSMessage::SERVER_TYPE value);
-  private:
-  ::SSMessage::SERVER_TYPE _internal_type() const;
-  void _internal_set_type(::SSMessage::SERVER_TYPE value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:SSMessage.ServerConnChange)
+  // @@protoc_insertion_point(class_scope:SSMessage.ServerFirstPackage)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
-  ::PROTOBUF_NAMESPACE_ID::int32 port_;
-  ::PROTOBUF_NAMESPACE_ID::int32 change_;
-  int type_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_msg_5fss_5fcommon_2eproto;
-};
-// -------------------------------------------------------------------
-
-class UserInfo :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SSMessage.UserInfo) */ {
- public:
-  UserInfo();
-  virtual ~UserInfo();
-
-  UserInfo(const UserInfo& from);
-  UserInfo(UserInfo&& from) noexcept
-    : UserInfo() {
-    *this = ::std::move(from);
-  }
-
-  inline UserInfo& operator=(const UserInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline UserInfo& operator=(UserInfo&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const UserInfo& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const UserInfo* internal_default_instance() {
-    return reinterpret_cast<const UserInfo*>(
-               &_UserInfo_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    2;
-
-  friend void swap(UserInfo& a, UserInfo& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(UserInfo* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline UserInfo* New() const final {
-    return CreateMaybeMessage<UserInfo>(nullptr);
-  }
-
-  UserInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<UserInfo>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const UserInfo& from);
-  void MergeFrom(const UserInfo& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(UserInfo* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SSMessage.UserInfo";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_5fss_5fcommon_2eproto);
-    return ::descriptor_table_msg_5fss_5fcommon_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  typedef UserInfo_Operation Operation;
-  static constexpr Operation Register =
-    UserInfo_Operation_Register;
-  static constexpr Operation Logout =
-    UserInfo_Operation_Logout;
-  static inline bool Operation_IsValid(int value) {
-    return UserInfo_Operation_IsValid(value);
-  }
-  static constexpr Operation Operation_MIN =
-    UserInfo_Operation_Operation_MIN;
-  static constexpr Operation Operation_MAX =
-    UserInfo_Operation_Operation_MAX;
-  static constexpr int Operation_ARRAYSIZE =
-    UserInfo_Operation_Operation_ARRAYSIZE;
-  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
-  Operation_descriptor() {
-    return UserInfo_Operation_descriptor();
-  }
-  template<typename T>
-  static inline const std::string& Operation_Name(T enum_t_value) {
-    static_assert(::std::is_same<T, Operation>::value ||
-      ::std::is_integral<T>::value,
-      "Incorrect type passed to function Operation_Name.");
-    return UserInfo_Operation_Name(enum_t_value);
-  }
-  static inline bool Operation_Parse(const std::string& name,
-      Operation* value) {
-    return UserInfo_Operation_Parse(name, value);
-  }
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kUseridFieldNumber = 1,
-    kFdFieldNumber = 2,
-    kOptFieldNumber = 3,
-  };
-  // int32 userid = 1;
-  void clear_userid();
-  ::PROTOBUF_NAMESPACE_ID::int32 userid() const;
-  void set_userid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_userid() const;
-  void _internal_set_userid(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 fd = 2;
-  void clear_fd();
-  ::PROTOBUF_NAMESPACE_ID::int32 fd() const;
-  void set_fd(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_fd() const;
-  void _internal_set_fd(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // .SSMessage.UserInfo.Operation opt = 3;
-  void clear_opt();
-  ::SSMessage::UserInfo_Operation opt() const;
-  void set_opt(::SSMessage::UserInfo_Operation value);
-  private:
-  ::SSMessage::UserInfo_Operation _internal_opt() const;
-  void _internal_set_opt(::SSMessage::UserInfo_Operation value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:SSMessage.UserInfo)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::int32 userid_;
-  ::PROTOBUF_NAMESPACE_ID::int32 fd_;
-  int opt_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_msg_5fss_5fcommon_2eproto;
-};
-// -------------------------------------------------------------------
-
-class RegionInfo :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SSMessage.RegionInfo) */ {
- public:
-  RegionInfo();
-  virtual ~RegionInfo();
-
-  RegionInfo(const RegionInfo& from);
-  RegionInfo(RegionInfo&& from) noexcept
-    : RegionInfo() {
-    *this = ::std::move(from);
-  }
-
-  inline RegionInfo& operator=(const RegionInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline RegionInfo& operator=(RegionInfo&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const RegionInfo& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const RegionInfo* internal_default_instance() {
-    return reinterpret_cast<const RegionInfo*>(
-               &_RegionInfo_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    3;
-
-  friend void swap(RegionInfo& a, RegionInfo& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(RegionInfo* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline RegionInfo* New() const final {
-    return CreateMaybeMessage<RegionInfo>(nullptr);
-  }
-
-  RegionInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<RegionInfo>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const RegionInfo& from);
-  void MergeFrom(const RegionInfo& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(RegionInfo* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SSMessage.RegionInfo";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_5fss_5fcommon_2eproto);
-    return ::descriptor_table_msg_5fss_5fcommon_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kServerNameFieldNumber = 3,
-    kIdFieldNumber = 1,
-    kPeopleCountFieldNumber = 2,
-    kLevelFieldNumber = 4,
-  };
-  // string server_name = 3;
-  void clear_server_name();
-  const std::string& server_name() const;
-  void set_server_name(const std::string& value);
-  void set_server_name(std::string&& value);
-  void set_server_name(const char* value);
-  void set_server_name(const char* value, size_t size);
-  std::string* mutable_server_name();
-  std::string* release_server_name();
-  void set_allocated_server_name(std::string* server_name);
-  private:
-  const std::string& _internal_server_name() const;
-  void _internal_set_server_name(const std::string& value);
-  std::string* _internal_mutable_server_name();
-  public:
-
-  // int32 id = 1;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 people_count = 2;
-  void clear_people_count();
-  ::PROTOBUF_NAMESPACE_ID::int32 people_count() const;
-  void set_people_count(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_people_count() const;
-  void _internal_set_people_count(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // .SSMessage.SERVER_FREE_LEVEL level = 4;
-  void clear_level();
-  ::SSMessage::SERVER_FREE_LEVEL level() const;
-  void set_level(::SSMessage::SERVER_FREE_LEVEL value);
-  private:
-  ::SSMessage::SERVER_FREE_LEVEL _internal_level() const;
-  void _internal_set_level(::SSMessage::SERVER_FREE_LEVEL value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:SSMessage.RegionInfo)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr server_name_;
-  ::PROTOBUF_NAMESPACE_ID::int32 id_;
-  ::PROTOBUF_NAMESPACE_ID::int32 people_count_;
-  int level_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_msg_5fss_5fcommon_2eproto;
-};
-// -------------------------------------------------------------------
-
-class GetRegionInfoRequest :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SSMessage.GetRegionInfoRequest) */ {
- public:
-  GetRegionInfoRequest();
-  virtual ~GetRegionInfoRequest();
-
-  GetRegionInfoRequest(const GetRegionInfoRequest& from);
-  GetRegionInfoRequest(GetRegionInfoRequest&& from) noexcept
-    : GetRegionInfoRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline GetRegionInfoRequest& operator=(const GetRegionInfoRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline GetRegionInfoRequest& operator=(GetRegionInfoRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const GetRegionInfoRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const GetRegionInfoRequest* internal_default_instance() {
-    return reinterpret_cast<const GetRegionInfoRequest*>(
-               &_GetRegionInfoRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    4;
-
-  friend void swap(GetRegionInfoRequest& a, GetRegionInfoRequest& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(GetRegionInfoRequest* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline GetRegionInfoRequest* New() const final {
-    return CreateMaybeMessage<GetRegionInfoRequest>(nullptr);
-  }
-
-  GetRegionInfoRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<GetRegionInfoRequest>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const GetRegionInfoRequest& from);
-  void MergeFrom(const GetRegionInfoRequest& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(GetRegionInfoRequest* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SSMessage.GetRegionInfoRequest";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_5fss_5fcommon_2eproto);
-    return ::descriptor_table_msg_5fss_5fcommon_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:SSMessage.GetRegionInfoRequest)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_msg_5fss_5fcommon_2eproto;
-};
-// -------------------------------------------------------------------
-
-class GetRegionInfoResponse :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SSMessage.GetRegionInfoResponse) */ {
- public:
-  GetRegionInfoResponse();
-  virtual ~GetRegionInfoResponse();
-
-  GetRegionInfoResponse(const GetRegionInfoResponse& from);
-  GetRegionInfoResponse(GetRegionInfoResponse&& from) noexcept
-    : GetRegionInfoResponse() {
-    *this = ::std::move(from);
-  }
-
-  inline GetRegionInfoResponse& operator=(const GetRegionInfoResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline GetRegionInfoResponse& operator=(GetRegionInfoResponse&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const GetRegionInfoResponse& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const GetRegionInfoResponse* internal_default_instance() {
-    return reinterpret_cast<const GetRegionInfoResponse*>(
-               &_GetRegionInfoResponse_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    5;
-
-  friend void swap(GetRegionInfoResponse& a, GetRegionInfoResponse& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(GetRegionInfoResponse* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline GetRegionInfoResponse* New() const final {
-    return CreateMaybeMessage<GetRegionInfoResponse>(nullptr);
-  }
-
-  GetRegionInfoResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<GetRegionInfoResponse>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const GetRegionInfoResponse& from);
-  void MergeFrom(const GetRegionInfoResponse& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(GetRegionInfoResponse* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SSMessage.GetRegionInfoResponse";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_5fss_5fcommon_2eproto);
-    return ::descriptor_table_msg_5fss_5fcommon_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kInfosFieldNumber = 1,
-  };
-  // repeated .SSMessage.RegionInfo infos = 1;
-  int infos_size() const;
-  private:
-  int _internal_infos_size() const;
-  public:
-  void clear_infos();
-  ::SSMessage::RegionInfo* mutable_infos(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SSMessage::RegionInfo >*
-      mutable_infos();
-  private:
-  const ::SSMessage::RegionInfo& _internal_infos(int index) const;
-  ::SSMessage::RegionInfo* _internal_add_infos();
-  public:
-  const ::SSMessage::RegionInfo& infos(int index) const;
-  ::SSMessage::RegionInfo* add_infos();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SSMessage::RegionInfo >&
-      infos() const;
-
-  // @@protoc_insertion_point(class_scope:SSMessage.GetRegionInfoResponse)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SSMessage::RegionInfo > infos_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_msg_5fss_5fcommon_2eproto;
-};
-// -------------------------------------------------------------------
-
-class JoinRegionRequest :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SSMessage.JoinRegionRequest) */ {
- public:
-  JoinRegionRequest();
-  virtual ~JoinRegionRequest();
-
-  JoinRegionRequest(const JoinRegionRequest& from);
-  JoinRegionRequest(JoinRegionRequest&& from) noexcept
-    : JoinRegionRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline JoinRegionRequest& operator=(const JoinRegionRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline JoinRegionRequest& operator=(JoinRegionRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const JoinRegionRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const JoinRegionRequest* internal_default_instance() {
-    return reinterpret_cast<const JoinRegionRequest*>(
-               &_JoinRegionRequest_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    6;
-
-  friend void swap(JoinRegionRequest& a, JoinRegionRequest& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(JoinRegionRequest* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline JoinRegionRequest* New() const final {
-    return CreateMaybeMessage<JoinRegionRequest>(nullptr);
-  }
-
-  JoinRegionRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<JoinRegionRequest>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const JoinRegionRequest& from);
-  void MergeFrom(const JoinRegionRequest& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(JoinRegionRequest* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SSMessage.JoinRegionRequest";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_5fss_5fcommon_2eproto);
-    return ::descriptor_table_msg_5fss_5fcommon_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kIdFieldNumber = 1,
-  };
-  // int32 id = 1;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:SSMessage.JoinRegionRequest)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::int32 id_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_msg_5fss_5fcommon_2eproto;
-};
-// -------------------------------------------------------------------
-
-class JoinRegionResponse :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SSMessage.JoinRegionResponse) */ {
- public:
-  JoinRegionResponse();
-  virtual ~JoinRegionResponse();
-
-  JoinRegionResponse(const JoinRegionResponse& from);
-  JoinRegionResponse(JoinRegionResponse&& from) noexcept
-    : JoinRegionResponse() {
-    *this = ::std::move(from);
-  }
-
-  inline JoinRegionResponse& operator=(const JoinRegionResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline JoinRegionResponse& operator=(JoinRegionResponse&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const JoinRegionResponse& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const JoinRegionResponse* internal_default_instance() {
-    return reinterpret_cast<const JoinRegionResponse*>(
-               &_JoinRegionResponse_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    7;
-
-  friend void swap(JoinRegionResponse& a, JoinRegionResponse& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(JoinRegionResponse* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline JoinRegionResponse* New() const final {
-    return CreateMaybeMessage<JoinRegionResponse>(nullptr);
-  }
-
-  JoinRegionResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<JoinRegionResponse>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const JoinRegionResponse& from);
-  void MergeFrom(const JoinRegionResponse& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(JoinRegionResponse* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SSMessage.JoinRegionResponse";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_5fss_5fcommon_2eproto);
-    return ::descriptor_table_msg_5fss_5fcommon_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kIpFieldNumber = 2,
-    kRetFieldNumber = 1,
-    kPortFieldNumber = 3,
-  };
-  // string ip = 2;
-  void clear_ip();
-  const std::string& ip() const;
-  void set_ip(const std::string& value);
-  void set_ip(std::string&& value);
-  void set_ip(const char* value);
-  void set_ip(const char* value, size_t size);
-  std::string* mutable_ip();
-  std::string* release_ip();
-  void set_allocated_ip(std::string* ip);
-  private:
-  const std::string& _internal_ip() const;
-  void _internal_set_ip(const std::string& value);
-  std::string* _internal_mutable_ip();
-  public:
-
-  // bool ret = 1;
-  void clear_ret();
-  bool ret() const;
-  void set_ret(bool value);
-  private:
-  bool _internal_ret() const;
-  void _internal_set_ret(bool value);
-  public:
-
-  // int32 port = 3;
-  void clear_port();
-  ::PROTOBUF_NAMESPACE_ID::int32 port() const;
-  void set_port(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_port() const;
-  void _internal_set_port(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:SSMessage.JoinRegionResponse)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
-  bool ret_;
-  ::PROTOBUF_NAMESPACE_ID::int32 port_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr external_ip_;
+  ::PROTOBUF_NAMESPACE_ID::int32 external_port_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_msg_5fss_5fcommon_2eproto;
 };
@@ -1491,741 +219,95 @@ class JoinRegionResponse :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ServerInfo
+// ServerFirstPackage
 
-// string ip = 1;
-inline void ServerInfo::clear_ip() {
-  ip_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+// bytes external_ip = 1;
+inline void ServerFirstPackage::clear_external_ip() {
+  external_ip_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline const std::string& ServerInfo::ip() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerInfo.ip)
-  return _internal_ip();
+inline const std::string& ServerFirstPackage::external_ip() const {
+  // @@protoc_insertion_point(field_get:SSMessage.ServerFirstPackage.external_ip)
+  return _internal_external_ip();
 }
-inline void ServerInfo::set_ip(const std::string& value) {
-  _internal_set_ip(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerInfo.ip)
+inline void ServerFirstPackage::set_external_ip(const std::string& value) {
+  _internal_set_external_ip(value);
+  // @@protoc_insertion_point(field_set:SSMessage.ServerFirstPackage.external_ip)
 }
-inline std::string* ServerInfo::mutable_ip() {
-  // @@protoc_insertion_point(field_mutable:SSMessage.ServerInfo.ip)
-  return _internal_mutable_ip();
+inline std::string* ServerFirstPackage::mutable_external_ip() {
+  // @@protoc_insertion_point(field_mutable:SSMessage.ServerFirstPackage.external_ip)
+  return _internal_mutable_external_ip();
 }
-inline const std::string& ServerInfo::_internal_ip() const {
-  return ip_.GetNoArena();
+inline const std::string& ServerFirstPackage::_internal_external_ip() const {
+  return external_ip_.GetNoArena();
 }
-inline void ServerInfo::_internal_set_ip(const std::string& value) {
+inline void ServerFirstPackage::_internal_set_external_ip(const std::string& value) {
   
-  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+  external_ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
 }
-inline void ServerInfo::set_ip(std::string&& value) {
+inline void ServerFirstPackage::set_external_ip(std::string&& value) {
   
-  ip_.SetNoArena(
+  external_ip_.SetNoArena(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:SSMessage.ServerInfo.ip)
+  // @@protoc_insertion_point(field_set_rvalue:SSMessage.ServerFirstPackage.external_ip)
 }
-inline void ServerInfo::set_ip(const char* value) {
+inline void ServerFirstPackage::set_external_ip(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:SSMessage.ServerInfo.ip)
+  external_ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:SSMessage.ServerFirstPackage.external_ip)
 }
-inline void ServerInfo::set_ip(const char* value, size_t size) {
+inline void ServerFirstPackage::set_external_ip(const void* value, size_t size) {
   
-  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  external_ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:SSMessage.ServerInfo.ip)
+  // @@protoc_insertion_point(field_set_pointer:SSMessage.ServerFirstPackage.external_ip)
 }
-inline std::string* ServerInfo::_internal_mutable_ip() {
+inline std::string* ServerFirstPackage::_internal_mutable_external_ip() {
   
-  return ip_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  return external_ip_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline std::string* ServerInfo::release_ip() {
-  // @@protoc_insertion_point(field_release:SSMessage.ServerInfo.ip)
+inline std::string* ServerFirstPackage::release_external_ip() {
+  // @@protoc_insertion_point(field_release:SSMessage.ServerFirstPackage.external_ip)
   
-  return ip_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  return external_ip_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline void ServerInfo::set_allocated_ip(std::string* ip) {
-  if (ip != nullptr) {
+inline void ServerFirstPackage::set_allocated_external_ip(std::string* external_ip) {
+  if (external_ip != nullptr) {
     
   } else {
     
   }
-  ip_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ip);
-  // @@protoc_insertion_point(field_set_allocated:SSMessage.ServerInfo.ip)
+  external_ip_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), external_ip);
+  // @@protoc_insertion_point(field_set_allocated:SSMessage.ServerFirstPackage.external_ip)
 }
 
-// int32 port = 2;
-inline void ServerInfo::clear_port() {
-  port_ = 0;
+// int32 external_port = 2;
+inline void ServerFirstPackage::clear_external_port() {
+  external_port_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerInfo::_internal_port() const {
-  return port_;
+inline ::PROTOBUF_NAMESPACE_ID::int32 ServerFirstPackage::_internal_external_port() const {
+  return external_port_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerInfo::port() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerInfo.port)
-  return _internal_port();
+inline ::PROTOBUF_NAMESPACE_ID::int32 ServerFirstPackage::external_port() const {
+  // @@protoc_insertion_point(field_get:SSMessage.ServerFirstPackage.external_port)
+  return _internal_external_port();
 }
-inline void ServerInfo::_internal_set_port(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void ServerFirstPackage::_internal_set_external_port(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
-  port_ = value;
-}
-inline void ServerInfo::set_port(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_port(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerInfo.port)
-}
-
-// int32 server_free_level = 3;
-inline void ServerInfo::clear_server_free_level() {
-  server_free_level_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerInfo::_internal_server_free_level() const {
-  return server_free_level_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerInfo::server_free_level() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerInfo.server_free_level)
-  return _internal_server_free_level();
-}
-inline void ServerInfo::_internal_set_server_free_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  server_free_level_ = value;
-}
-inline void ServerInfo::set_server_free_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_server_free_level(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerInfo.server_free_level)
-}
-
-// int32 server_type = 4;
-inline void ServerInfo::clear_server_type() {
-  server_type_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerInfo::_internal_server_type() const {
-  return server_type_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerInfo::server_type() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerInfo.server_type)
-  return _internal_server_type();
-}
-inline void ServerInfo::_internal_set_server_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  server_type_ = value;
-}
-inline void ServerInfo::set_server_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_server_type(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerInfo.server_type)
-}
-
-// .SSMessage.ServerInfo.Operation opt = 5;
-inline void ServerInfo::clear_opt() {
-  opt_ = 0;
-}
-inline ::SSMessage::ServerInfo_Operation ServerInfo::_internal_opt() const {
-  return static_cast< ::SSMessage::ServerInfo_Operation >(opt_);
-}
-inline ::SSMessage::ServerInfo_Operation ServerInfo::opt() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerInfo.opt)
-  return _internal_opt();
-}
-inline void ServerInfo::_internal_set_opt(::SSMessage::ServerInfo_Operation value) {
-  
-  opt_ = value;
-}
-inline void ServerInfo::set_opt(::SSMessage::ServerInfo_Operation value) {
-  _internal_set_opt(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerInfo.opt)
-}
-
-// string server_name = 6;
-inline void ServerInfo::clear_server_name() {
-  server_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline const std::string& ServerInfo::server_name() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerInfo.server_name)
-  return _internal_server_name();
-}
-inline void ServerInfo::set_server_name(const std::string& value) {
-  _internal_set_server_name(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerInfo.server_name)
-}
-inline std::string* ServerInfo::mutable_server_name() {
-  // @@protoc_insertion_point(field_mutable:SSMessage.ServerInfo.server_name)
-  return _internal_mutable_server_name();
-}
-inline const std::string& ServerInfo::_internal_server_name() const {
-  return server_name_.GetNoArena();
-}
-inline void ServerInfo::_internal_set_server_name(const std::string& value) {
-  
-  server_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
-}
-inline void ServerInfo::set_server_name(std::string&& value) {
-  
-  server_name_.SetNoArena(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:SSMessage.ServerInfo.server_name)
-}
-inline void ServerInfo::set_server_name(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  server_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:SSMessage.ServerInfo.server_name)
-}
-inline void ServerInfo::set_server_name(const char* value, size_t size) {
-  
-  server_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:SSMessage.ServerInfo.server_name)
-}
-inline std::string* ServerInfo::_internal_mutable_server_name() {
-  
-  return server_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline std::string* ServerInfo::release_server_name() {
-  // @@protoc_insertion_point(field_release:SSMessage.ServerInfo.server_name)
-  
-  return server_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline void ServerInfo::set_allocated_server_name(std::string* server_name) {
-  if (server_name != nullptr) {
-    
-  } else {
-    
-  }
-  server_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), server_name);
-  // @@protoc_insertion_point(field_set_allocated:SSMessage.ServerInfo.server_name)
-}
-
-// -------------------------------------------------------------------
-
-// ServerConnChange
-
-// string ip = 1;
-inline void ServerConnChange::clear_ip() {
-  ip_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline const std::string& ServerConnChange::ip() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerConnChange.ip)
-  return _internal_ip();
-}
-inline void ServerConnChange::set_ip(const std::string& value) {
-  _internal_set_ip(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerConnChange.ip)
-}
-inline std::string* ServerConnChange::mutable_ip() {
-  // @@protoc_insertion_point(field_mutable:SSMessage.ServerConnChange.ip)
-  return _internal_mutable_ip();
-}
-inline const std::string& ServerConnChange::_internal_ip() const {
-  return ip_.GetNoArena();
-}
-inline void ServerConnChange::_internal_set_ip(const std::string& value) {
-  
-  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
-}
-inline void ServerConnChange::set_ip(std::string&& value) {
-  
-  ip_.SetNoArena(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:SSMessage.ServerConnChange.ip)
-}
-inline void ServerConnChange::set_ip(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:SSMessage.ServerConnChange.ip)
-}
-inline void ServerConnChange::set_ip(const char* value, size_t size) {
-  
-  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:SSMessage.ServerConnChange.ip)
-}
-inline std::string* ServerConnChange::_internal_mutable_ip() {
-  
-  return ip_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline std::string* ServerConnChange::release_ip() {
-  // @@protoc_insertion_point(field_release:SSMessage.ServerConnChange.ip)
-  
-  return ip_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline void ServerConnChange::set_allocated_ip(std::string* ip) {
-  if (ip != nullptr) {
-    
-  } else {
-    
-  }
-  ip_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ip);
-  // @@protoc_insertion_point(field_set_allocated:SSMessage.ServerConnChange.ip)
-}
-
-// int32 port = 2;
-inline void ServerConnChange::clear_port() {
-  port_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerConnChange::_internal_port() const {
-  return port_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerConnChange::port() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerConnChange.port)
-  return _internal_port();
-}
-inline void ServerConnChange::_internal_set_port(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  port_ = value;
-}
-inline void ServerConnChange::set_port(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_port(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerConnChange.port)
-}
-
-// int32 change = 3;
-inline void ServerConnChange::clear_change() {
-  change_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerConnChange::_internal_change() const {
-  return change_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 ServerConnChange::change() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerConnChange.change)
-  return _internal_change();
-}
-inline void ServerConnChange::_internal_set_change(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  change_ = value;
-}
-inline void ServerConnChange::set_change(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_change(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerConnChange.change)
-}
-
-// .SSMessage.SERVER_TYPE type = 4;
-inline void ServerConnChange::clear_type() {
-  type_ = 0;
-}
-inline ::SSMessage::SERVER_TYPE ServerConnChange::_internal_type() const {
-  return static_cast< ::SSMessage::SERVER_TYPE >(type_);
-}
-inline ::SSMessage::SERVER_TYPE ServerConnChange::type() const {
-  // @@protoc_insertion_point(field_get:SSMessage.ServerConnChange.type)
-  return _internal_type();
-}
-inline void ServerConnChange::_internal_set_type(::SSMessage::SERVER_TYPE value) {
-  
-  type_ = value;
-}
-inline void ServerConnChange::set_type(::SSMessage::SERVER_TYPE value) {
-  _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:SSMessage.ServerConnChange.type)
-}
-
-// -------------------------------------------------------------------
-
-// UserInfo
-
-// int32 userid = 1;
-inline void UserInfo::clear_userid() {
-  userid_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfo::_internal_userid() const {
-  return userid_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfo::userid() const {
-  // @@protoc_insertion_point(field_get:SSMessage.UserInfo.userid)
-  return _internal_userid();
-}
-inline void UserInfo::_internal_set_userid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  userid_ = value;
-}
-inline void UserInfo::set_userid(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_userid(value);
-  // @@protoc_insertion_point(field_set:SSMessage.UserInfo.userid)
-}
-
-// int32 fd = 2;
-inline void UserInfo::clear_fd() {
-  fd_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfo::_internal_fd() const {
-  return fd_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 UserInfo::fd() const {
-  // @@protoc_insertion_point(field_get:SSMessage.UserInfo.fd)
-  return _internal_fd();
-}
-inline void UserInfo::_internal_set_fd(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  fd_ = value;
-}
-inline void UserInfo::set_fd(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_fd(value);
-  // @@protoc_insertion_point(field_set:SSMessage.UserInfo.fd)
-}
-
-// .SSMessage.UserInfo.Operation opt = 3;
-inline void UserInfo::clear_opt() {
-  opt_ = 0;
-}
-inline ::SSMessage::UserInfo_Operation UserInfo::_internal_opt() const {
-  return static_cast< ::SSMessage::UserInfo_Operation >(opt_);
-}
-inline ::SSMessage::UserInfo_Operation UserInfo::opt() const {
-  // @@protoc_insertion_point(field_get:SSMessage.UserInfo.opt)
-  return _internal_opt();
-}
-inline void UserInfo::_internal_set_opt(::SSMessage::UserInfo_Operation value) {
-  
-  opt_ = value;
-}
-inline void UserInfo::set_opt(::SSMessage::UserInfo_Operation value) {
-  _internal_set_opt(value);
-  // @@protoc_insertion_point(field_set:SSMessage.UserInfo.opt)
-}
-
-// -------------------------------------------------------------------
-
-// RegionInfo
-
-// int32 id = 1;
-inline void RegionInfo::clear_id() {
-  id_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 RegionInfo::_internal_id() const {
-  return id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 RegionInfo::id() const {
-  // @@protoc_insertion_point(field_get:SSMessage.RegionInfo.id)
-  return _internal_id();
-}
-inline void RegionInfo::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  id_ = value;
-}
-inline void RegionInfo::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:SSMessage.RegionInfo.id)
-}
-
-// int32 people_count = 2;
-inline void RegionInfo::clear_people_count() {
-  people_count_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 RegionInfo::_internal_people_count() const {
-  return people_count_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 RegionInfo::people_count() const {
-  // @@protoc_insertion_point(field_get:SSMessage.RegionInfo.people_count)
-  return _internal_people_count();
-}
-inline void RegionInfo::_internal_set_people_count(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  people_count_ = value;
-}
-inline void RegionInfo::set_people_count(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_people_count(value);
-  // @@protoc_insertion_point(field_set:SSMessage.RegionInfo.people_count)
-}
-
-// string server_name = 3;
-inline void RegionInfo::clear_server_name() {
-  server_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline const std::string& RegionInfo::server_name() const {
-  // @@protoc_insertion_point(field_get:SSMessage.RegionInfo.server_name)
-  return _internal_server_name();
-}
-inline void RegionInfo::set_server_name(const std::string& value) {
-  _internal_set_server_name(value);
-  // @@protoc_insertion_point(field_set:SSMessage.RegionInfo.server_name)
-}
-inline std::string* RegionInfo::mutable_server_name() {
-  // @@protoc_insertion_point(field_mutable:SSMessage.RegionInfo.server_name)
-  return _internal_mutable_server_name();
-}
-inline const std::string& RegionInfo::_internal_server_name() const {
-  return server_name_.GetNoArena();
-}
-inline void RegionInfo::_internal_set_server_name(const std::string& value) {
-  
-  server_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
-}
-inline void RegionInfo::set_server_name(std::string&& value) {
-  
-  server_name_.SetNoArena(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:SSMessage.RegionInfo.server_name)
-}
-inline void RegionInfo::set_server_name(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  server_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:SSMessage.RegionInfo.server_name)
-}
-inline void RegionInfo::set_server_name(const char* value, size_t size) {
-  
-  server_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:SSMessage.RegionInfo.server_name)
-}
-inline std::string* RegionInfo::_internal_mutable_server_name() {
-  
-  return server_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline std::string* RegionInfo::release_server_name() {
-  // @@protoc_insertion_point(field_release:SSMessage.RegionInfo.server_name)
-  
-  return server_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline void RegionInfo::set_allocated_server_name(std::string* server_name) {
-  if (server_name != nullptr) {
-    
-  } else {
-    
-  }
-  server_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), server_name);
-  // @@protoc_insertion_point(field_set_allocated:SSMessage.RegionInfo.server_name)
-}
-
-// .SSMessage.SERVER_FREE_LEVEL level = 4;
-inline void RegionInfo::clear_level() {
-  level_ = 0;
-}
-inline ::SSMessage::SERVER_FREE_LEVEL RegionInfo::_internal_level() const {
-  return static_cast< ::SSMessage::SERVER_FREE_LEVEL >(level_);
-}
-inline ::SSMessage::SERVER_FREE_LEVEL RegionInfo::level() const {
-  // @@protoc_insertion_point(field_get:SSMessage.RegionInfo.level)
-  return _internal_level();
-}
-inline void RegionInfo::_internal_set_level(::SSMessage::SERVER_FREE_LEVEL value) {
-  
-  level_ = value;
-}
-inline void RegionInfo::set_level(::SSMessage::SERVER_FREE_LEVEL value) {
-  _internal_set_level(value);
-  // @@protoc_insertion_point(field_set:SSMessage.RegionInfo.level)
-}
-
-// -------------------------------------------------------------------
-
-// GetRegionInfoRequest
-
-// -------------------------------------------------------------------
-
-// GetRegionInfoResponse
-
-// repeated .SSMessage.RegionInfo infos = 1;
-inline int GetRegionInfoResponse::_internal_infos_size() const {
-  return infos_.size();
-}
-inline int GetRegionInfoResponse::infos_size() const {
-  return _internal_infos_size();
-}
-inline void GetRegionInfoResponse::clear_infos() {
-  infos_.Clear();
-}
-inline ::SSMessage::RegionInfo* GetRegionInfoResponse::mutable_infos(int index) {
-  // @@protoc_insertion_point(field_mutable:SSMessage.GetRegionInfoResponse.infos)
-  return infos_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SSMessage::RegionInfo >*
-GetRegionInfoResponse::mutable_infos() {
-  // @@protoc_insertion_point(field_mutable_list:SSMessage.GetRegionInfoResponse.infos)
-  return &infos_;
-}
-inline const ::SSMessage::RegionInfo& GetRegionInfoResponse::_internal_infos(int index) const {
-  return infos_.Get(index);
-}
-inline const ::SSMessage::RegionInfo& GetRegionInfoResponse::infos(int index) const {
-  // @@protoc_insertion_point(field_get:SSMessage.GetRegionInfoResponse.infos)
-  return _internal_infos(index);
-}
-inline ::SSMessage::RegionInfo* GetRegionInfoResponse::_internal_add_infos() {
-  return infos_.Add();
-}
-inline ::SSMessage::RegionInfo* GetRegionInfoResponse::add_infos() {
-  // @@protoc_insertion_point(field_add:SSMessage.GetRegionInfoResponse.infos)
-  return _internal_add_infos();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SSMessage::RegionInfo >&
-GetRegionInfoResponse::infos() const {
-  // @@protoc_insertion_point(field_list:SSMessage.GetRegionInfoResponse.infos)
-  return infos_;
-}
-
-// -------------------------------------------------------------------
-
-// JoinRegionRequest
-
-// int32 id = 1;
-inline void JoinRegionRequest::clear_id() {
-  id_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 JoinRegionRequest::_internal_id() const {
-  return id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 JoinRegionRequest::id() const {
-  // @@protoc_insertion_point(field_get:SSMessage.JoinRegionRequest.id)
-  return _internal_id();
-}
-inline void JoinRegionRequest::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  id_ = value;
-}
-inline void JoinRegionRequest::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:SSMessage.JoinRegionRequest.id)
-}
-
-// -------------------------------------------------------------------
-
-// JoinRegionResponse
-
-// bool ret = 1;
-inline void JoinRegionResponse::clear_ret() {
-  ret_ = false;
-}
-inline bool JoinRegionResponse::_internal_ret() const {
-  return ret_;
-}
-inline bool JoinRegionResponse::ret() const {
-  // @@protoc_insertion_point(field_get:SSMessage.JoinRegionResponse.ret)
-  return _internal_ret();
-}
-inline void JoinRegionResponse::_internal_set_ret(bool value) {
-  
-  ret_ = value;
-}
-inline void JoinRegionResponse::set_ret(bool value) {
-  _internal_set_ret(value);
-  // @@protoc_insertion_point(field_set:SSMessage.JoinRegionResponse.ret)
-}
-
-// string ip = 2;
-inline void JoinRegionResponse::clear_ip() {
-  ip_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline const std::string& JoinRegionResponse::ip() const {
-  // @@protoc_insertion_point(field_get:SSMessage.JoinRegionResponse.ip)
-  return _internal_ip();
-}
-inline void JoinRegionResponse::set_ip(const std::string& value) {
-  _internal_set_ip(value);
-  // @@protoc_insertion_point(field_set:SSMessage.JoinRegionResponse.ip)
-}
-inline std::string* JoinRegionResponse::mutable_ip() {
-  // @@protoc_insertion_point(field_mutable:SSMessage.JoinRegionResponse.ip)
-  return _internal_mutable_ip();
-}
-inline const std::string& JoinRegionResponse::_internal_ip() const {
-  return ip_.GetNoArena();
-}
-inline void JoinRegionResponse::_internal_set_ip(const std::string& value) {
-  
-  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
-}
-inline void JoinRegionResponse::set_ip(std::string&& value) {
-  
-  ip_.SetNoArena(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:SSMessage.JoinRegionResponse.ip)
-}
-inline void JoinRegionResponse::set_ip(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:SSMessage.JoinRegionResponse.ip)
-}
-inline void JoinRegionResponse::set_ip(const char* value, size_t size) {
-  
-  ip_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:SSMessage.JoinRegionResponse.ip)
-}
-inline std::string* JoinRegionResponse::_internal_mutable_ip() {
-  
-  return ip_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline std::string* JoinRegionResponse::release_ip() {
-  // @@protoc_insertion_point(field_release:SSMessage.JoinRegionResponse.ip)
-  
-  return ip_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline void JoinRegionResponse::set_allocated_ip(std::string* ip) {
-  if (ip != nullptr) {
-    
-  } else {
-    
-  }
-  ip_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ip);
-  // @@protoc_insertion_point(field_set_allocated:SSMessage.JoinRegionResponse.ip)
-}
-
-// int32 port = 3;
-inline void JoinRegionResponse::clear_port() {
-  port_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 JoinRegionResponse::_internal_port() const {
-  return port_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 JoinRegionResponse::port() const {
-  // @@protoc_insertion_point(field_get:SSMessage.JoinRegionResponse.port)
-  return _internal_port();
-}
-inline void JoinRegionResponse::_internal_set_port(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  port_ = value;
-}
-inline void JoinRegionResponse::set_port(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_port(value);
-  // @@protoc_insertion_point(field_set:SSMessage.JoinRegionResponse.port)
+  external_port_ = value;
+}
+inline void ServerFirstPackage::set_external_port(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_external_port(value);
+  // @@protoc_insertion_point(field_set:SSMessage.ServerFirstPackage.external_port)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace SSMessage
-
-PROTOBUF_NAMESPACE_OPEN
-
-template <> struct is_proto_enum< ::SSMessage::ServerInfo_Operation> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::SSMessage::ServerInfo_Operation>() {
-  return ::SSMessage::ServerInfo_Operation_descriptor();
-}
-template <> struct is_proto_enum< ::SSMessage::UserInfo_Operation> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::SSMessage::UserInfo_Operation>() {
-  return ::SSMessage::UserInfo_Operation_descriptor();
-}
-template <> struct is_proto_enum< ::SSMessage::SERVER_TYPE> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::SSMessage::SERVER_TYPE>() {
-  return ::SSMessage::SERVER_TYPE_descriptor();
-}
-template <> struct is_proto_enum< ::SSMessage::SERVER_FREE_LEVEL> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::SSMessage::SERVER_FREE_LEVEL>() {
-  return ::SSMessage::SERVER_FREE_LEVEL_descriptor();
-}
-
-PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

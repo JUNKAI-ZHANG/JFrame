@@ -10,16 +10,19 @@
 #include "epoll/epoll.h"
 #include "lib/log/log.h"
 #include "lib/net/manager/NetMessageMgr.h"
+#include "lib/util/Singleton.h"
 #include "socket/socket.h"
 
+class NetMessage;
 class NetMessageMgr;
+class ConnectionPool;
 
 class NetService {
    public:
     explicit NetService();
     virtual ~NetService();
     NetError Working(int32_t iPort);
-    void SendMsg(std::unique_ptr<NetMessage>& pNetMessage);
+    void SendMsg(std::unique_ptr<NetMessage> pNetMessage);
 
    public:
     NetEpoll* GetNetEpoll() { return m_kNetEpoll; }
@@ -44,5 +47,7 @@ class NetService {
     ConnectionPool* m_kConnPool;
     NetMessageMgr* m_kNetMessageMgr;
 };
+
+#define NET_SERVICE Singleton<NetService>::Instance()
 
 #endif  // NET_NETSERVICE_H

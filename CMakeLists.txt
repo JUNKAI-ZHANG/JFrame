@@ -9,10 +9,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 # Include path
 include_directories("${PROJECT_SOURCE_DIR}/src")
 
-# Binary file output
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-
-
 # Dynamic lib output
 # SET_TARGET_PROPERTIES(dllname PROPERTIES RUNTIME_OUTPUT_DIRECTORY ../bin)
 
@@ -40,27 +36,65 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/lib)
 add_library(_json STATIC ${src_3rd_rapidjson})
 set_target_properties(_json PROPERTIES LINKER_LANGUAGE CXX)
 
+add_library(_proto STATIC ${src_proto_ss} ${src_proto_cs} ${src_proto_cm})
+set_target_properties(_proto PROPERTIES LINKER_LANGUAGE CXX)
+
 ######################################## LoginServer #######################################
 
 
 ######################################## GateServer ########################################
 file(GLOB_RECURSE gate_server src/server/GateServer/*.h src/server/GateServer/*.cpp src/server/GateServer/*.hpp src/server/GateServer/*.cc)
+
+# Binary file output
+set(EXECUTABLE_OUTPUT_PATH_GATESERVER ${PROJECT_SOURCE_DIR}/bin/GateServer)
+
 add_executable(GateServer
     ${gate_server}
-    ${src_3rd_spdlog}
     ${src_lib_log}
     ${src_lib_net}
     ${src_lib_util}
-    ${src_proto_ss}
-    ${src_proto_cs}
-    ${src_proto_cm}
     ${src_libserver}
 )
+
+set_target_properties(GateServer
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH_GATESERVER}
+)
+
 
 target_link_libraries(GateServer
     pthread
     protobuf
 
     _json
+    _proto
+)
+#############################################################################################
+
+######################################## RouteServer ########################################
+file(GLOB_RECURSE route_server src/server/RouteServer/*.h src/server/RouteServer/*.cpp src/server/RouteServer/*.hpp src/server/RouteServer/*.cc)
+
+# Binary file output
+set(EXECUTABLE_OUTPUT_PATH_ROUTESERVER  ${PROJECT_SOURCE_DIR}/bin/RouteServer)
+
+add_executable(RouteServer
+    ${route_server}
+    ${src_lib_log}
+    ${src_lib_net}
+    ${src_lib_util}
+    ${src_libserver}
+)
+
+set_target_properties(RouteServer
+    PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH_ROUTESERVER}
+)
+
+target_link_libraries(RouteServer
+    pthread
+    protobuf
+
+    _json
+    _proto
 )
 #############################################################################################

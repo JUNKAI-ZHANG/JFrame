@@ -6,7 +6,9 @@
 #include <memory>
 #include <unordered_map>
 
-#include "./INetConnection.h"
+#include "lib/net/connection/INetConnection.h"
+
+class INetConnection;
 
 class ConnectionPool {
    public:
@@ -15,28 +17,11 @@ class ConnectionPool {
     virtual ~ConnectionPool() {
     }
 
-    void AddConnection(std::shared_ptr<INetConnection>& pConn) {
-        m_hmapConn[pConn->GetSocketFd()] = pConn;
-    }
+    void AddConnection(std::shared_ptr<INetConnection> pConn);
 
-    void RemoveConnection(std::shared_ptr<INetConnection>& pConn) {
-        if (pConn == nullptr) {
-            return;
-        }
-        std::unordered_map<uint32_t, std::shared_ptr<INetConnection>>::iterator pConnIter = m_hmapConn.find(pConn->GetSocketFd());
-        if (pConnIter == m_hmapConn.end()) {
-            return;
-        }
-        m_hmapConn.erase(pConn->GetSocketFd());
-    }
+    void RemoveConnection(std::shared_ptr<INetConnection> pConn);
 
-    std::shared_ptr<INetConnection> GetConnection(uint32_t iSocketFd) {
-        std::unordered_map<uint32_t, std::shared_ptr<INetConnection>>::iterator pConnIter = m_hmapConn.find(iSocketFd);
-        if (pConnIter == m_hmapConn.end()) {
-            return nullptr;
-        }
-        return pConnIter->second;
-    }
+    std::shared_ptr<INetConnection> GetConnection(uint32_t iSocketFd);
 
    private:
     std::unordered_map<uint32_t, std::shared_ptr<INetConnection>> m_hmapConn;
