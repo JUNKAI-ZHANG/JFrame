@@ -6,11 +6,10 @@
 1. 不使用git merge 产生新提交
 2. Dev开发，稳定版本使用Fast-Forward Merge到Master，使git历史清晰
 
-### 代码规范(Google 规范)
+### 指针规范
+1. 禁用裸指针，一律使用智能指针
 
-```
-{ BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, ColumnLimit: 0, IfElseSpacing : After}
-```
+### 代码规范
 
 #### 变量
 1. 标识
@@ -29,11 +28,19 @@
 2. 声明
 > 1. 禁用简写声明变量
 
-#### 代码风格
+#### 代码风格(Google 规范)
+```json
+{ BasedOnStyle: Google, IndentWidth: 4, TabWidth: 4, ColumnLimit: 0, IfElseSpacing : After}
+```
 1. 括号
 > 1. 大括号在行尾
 
 ---
 
 ## 待办
-1. ClientBuffer大小定多少合适？
+1. ~~ClientBuffer大小定多少合适？~~
+2. ~~引入RouteServer~~
+3. 消息分发
+4. 事件系统
+5. 日志写文件/引入spdlog
+6. 配置文件用什么格式？并导入三方库

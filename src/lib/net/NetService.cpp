@@ -155,7 +155,6 @@ NetError NetService::HandleNewConnecionEvent() {
 }
 
 NetError NetService::HandleConnMsgEvent(int32_t iConnFd) {
-    LogInfo("recv message");
     NetError eErr = NetError::NET_OK;
     if (m_kConnPool == nullptr) {
         LogError("{module:NetService}", "ConnPool is nullptr");
