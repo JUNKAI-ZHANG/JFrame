@@ -6,6 +6,7 @@
 #include "lib/net/NetService.h"
 #include "lib/net/define/NetDefine.h"
 #include "lib/net/define/err.h"
+#include "libserver/CommonLib/MessageDispatcher.h"
 
 class IBaseServer {
    public:
@@ -21,6 +22,8 @@ class IBaseServer {
         return ServiceType::None_Type;
     }
 
+    virtual void InitializeRegisterMsg() = 0;
+    virtual void BeforeLaunchServer() = 0;
     virtual void LaunchServer() = 0;
     virtual void OnAfterLaunchServer() = 0;
     virtual void ProcessNetRecvMessage() = 0;

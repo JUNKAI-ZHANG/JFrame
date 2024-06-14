@@ -20,17 +20,15 @@ std::string CommonServer::GetServerModule() {
     return "{module:CommonServer}";
 }
 
-void CommonServer::ProcessNetRecvMessage() {
-    std::deque<std::unique_ptr<NetMessage>> pRecvMsgDeque = NET_SERVICE.GetNetMessageMgr()->GetRecvMessageDeque();
-    LogInfo("Recv package num :", pRecvMsgDeque.size(), ",buffer :", pRecvMsgDeque.front()->GetNetConnection()->GetRecvBuffer()->GetCapacity());
-    /*
-    for (std::unique_ptr<NetMessage>& pNetMessage : pRecvMsgDeque) {
-        NET_SERVICE.SendMsg(std::move(pNetMessage));
-    }
-    */
+void CommonServer::InitializeRegisterMsg() {
+}
+
+void CommonServer::BeforeLaunchServer() {
+    this->InitializeRegisterMsg();
 }
 
 void CommonServer::LaunchServer() {
+    this->BeforeLaunchServer();
     // 创建网络线程
     std::thread kNetThread(std::bind(&NetService::Working, &NET_SERVICE, GetCreateServerContext()->GetPort()));
     this->OnAfterLaunchServer();
@@ -47,6 +45,17 @@ void CommonServer::LaunchServer() {
 }
 
 void CommonServer::OnAfterLaunchServer() {
+}
+
+void CommonServer::ProcessNetRecvMessage() {
+    std::deque<std::unique_ptr<NetMessage>> pRecvMsgDeque = NET_SERVICE.GetNetMessageMgr()->GetRecvMessageDeque();
+    LogInfo("Recv package num :", pRecvMsgDeque.size(), ",buffer :", pRecvMsgDeque.front()->GetNetConnection()->GetRecvBuffer()->GetCapacity());
+    // todo : 做分帧处理包
+
+    for (std::unique_ptr<NetMessage>& pNetMessage : pRecvMsgDeque) {
+        MESSAGE_DISPATCHER_MGR.Invoke(std::move(pNetMessage));
+    }
+    return;
 }
 
 int32_t CommonServer::TryConnectToRouteServer() {

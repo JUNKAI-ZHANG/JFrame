@@ -50,10 +50,10 @@ set(EXECUTABLE_OUTPUT_PATH_GATESERVER ${PROJECT_SOURCE_DIR}/bin/GateServer)
 
 add_executable(GateServer
     ${gate_server}
+    ${src_libserver}
     ${src_lib_log}
     ${src_lib_net}
     ${src_lib_util}
-    ${src_libserver}
 )
 
 set_target_properties(GateServer
@@ -79,10 +79,10 @@ set(EXECUTABLE_OUTPUT_PATH_ROUTESERVER  ${PROJECT_SOURCE_DIR}/bin/RouteServer)
 
 add_executable(RouteServer
     ${route_server}
+    ${src_libserver}
     ${src_lib_log}
     ${src_lib_net}
     ${src_lib_util}
-    ${src_libserver}
 )
 
 set_target_properties(RouteServer

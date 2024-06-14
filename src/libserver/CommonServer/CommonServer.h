@@ -12,6 +12,8 @@ class CommonServer : public IBaseServer {
     virtual std::string GetServerModule() override;
 
    protected:
+    virtual void InitializeRegisterMsg() override;
+    virtual void BeforeLaunchServer() override;
     virtual void LaunchServer() override;
     virtual void OnAfterLaunchServer() override;
     virtual void ProcessNetRecvMessage() override;

@@ -15,24 +15,24 @@ class NetMessage {
     friend NetMessageMgr;
 
    public:
-    explicit NetMessage(MessageHead kMessageHead,
+    explicit NetMessage(std::unique_ptr<MessageHead> pMessageHead,
                         char* pMessageBodyBytes,
                         std::shared_ptr<INetConnection> pConn)
-        : m_kMessageHead(kMessageHead),
+        : m_pMessageHead(std::move(pMessageHead)),
           m_kMessageBodyBytes(pMessageBodyBytes),
-          m_kConn(pConn) {
+          m_pConn(pConn) {
     }
     virtual ~NetMessage() {
     }
 
-    MessageHead GetMessageHead() { return m_kMessageHead; }
+    std::unique_ptr<MessageHead>& GetMessageHead() { return m_pMessageHead; }
     std::string GetMessageBodyBytes() { return m_kMessageBodyBytes; }
-    std::shared_ptr<INetConnection> GetNetConnection() { return m_kConn; }
+    std::shared_ptr<INetConnection> GetNetConnection() { return m_pConn; }
 
    private:
-    MessageHead m_kMessageHead;
+    std::unique_ptr<MessageHead> m_pMessageHead;
     std::string m_kMessageBodyBytes;
-    std::shared_ptr<INetConnection> m_kConn;
+    std::shared_ptr<INetConnection> m_pConn;
 };
 
 class NetMessageMgr {
@@ -41,11 +41,11 @@ class NetMessageMgr {
     explicit NetMessageMgr();
     virtual ~NetMessageMgr();
 
-    void AddRecvMessage(std::unique_ptr<NetMessage>& pNetMessage);
-    void AddRecvMessage(MessageHead kMessageHead, char* pMessageBodyBytes, std::shared_ptr<INetConnection> pConn);
+    void AddRecvMessage(std::unique_ptr<NetMessage> pNetMessage);
+    void AddRecvMessage(std::unique_ptr<MessageHead> pMessageHead, char* pMessageBodyBytes, std::shared_ptr<INetConnection> pConn);
 
-    void AddSendMessage(std::unique_ptr<NetMessage>& pNetMessage);
-    void AddSendMessage(MessageHead kMessageHead, char* pMessageBodyBytes, std::shared_ptr<INetConnection> pConn);
+    void AddSendMessage(std::unique_ptr<NetMessage> pNetMessage);
+    void AddSendMessage(std::unique_ptr<MessageHead> pMessageHead, char* pMessageBodyBytes, std::shared_ptr<INetConnection> pConn);
 
     std::deque<std::unique_ptr<NetMessage>> GetRecvMessageDeque();
     std::deque<std::unique_ptr<NetMessage>> GetRecvMessageDequeTimeout(uint32_t iTimeoutMs);

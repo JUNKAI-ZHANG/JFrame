@@ -5,13 +5,13 @@
 
 #include <unordered_map>
 
-#include "connection/ConnectionPool.h"
-#include "define/err.h"
-#include "epoll/epoll.h"
 #include "lib/log/log.h"
+#include "lib/net/connection/ConnectionPool.h"
+#include "lib/net/define/err.h"
+#include "lib/net/epoll/epoll.h"
 #include "lib/net/manager/NetMessageMgr.h"
+#include "lib/net/socket/socket.h"
 #include "lib/util/Singleton.h"
-#include "socket/socket.h"
 
 class NetMessage;
 class NetMessageMgr;
@@ -25,10 +25,10 @@ class NetService {
     void SendMsg(std::unique_ptr<NetMessage> pNetMessage);
 
    public:
-    NetEpoll* GetNetEpoll() { return m_kNetEpoll; }
-    NetSocket* GetNetSocket() { return m_kNetSocket; }
-    ConnectionPool* GetConnectionPool() { return m_kConnPool; }
-    NetMessageMgr* GetNetMessageMgr() { return m_kNetMessageMgr; }
+    std::shared_ptr<NetEpoll> GetNetEpoll() { return m_pNetEpoll; }
+    std::shared_ptr<NetSocket> GetNetSocket() { return m_pNetSocket; }
+    std::shared_ptr<ConnectionPool> GetConnectionPool() { return m_pConnPool; }
+    std::shared_ptr<NetMessageMgr> GetNetMessageMgr() { return m_pNetMessageMgr; }
 
    protected:
     virtual NetError CloseFd(int32_t iConnFd);
@@ -42,10 +42,10 @@ class NetService {
     NetError HandleEpollEvent(int32_t iConnFd, epoll_event kEvent, void* pData);
 
    protected:
-    NetEpoll* m_kNetEpoll;
-    NetSocket* m_kNetSocket;
-    ConnectionPool* m_kConnPool;
-    NetMessageMgr* m_kNetMessageMgr;
+    std::shared_ptr<NetEpoll> m_pNetEpoll;
+    std::shared_ptr<NetSocket> m_pNetSocket;
+    std::shared_ptr<ConnectionPool> m_pConnPool;
+    std::shared_ptr<NetMessageMgr> m_pNetMessageMgr;
 };
 
 #define NET_SERVICE Singleton<NetService>::Instance()
